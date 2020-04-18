@@ -2,6 +2,7 @@ const CellType = {
   NORMAL: 0,
   PLAYER: 1,
   WALL: 2,
+  DITCH: 3,
 };
 
 function getFill(type) {
@@ -12,6 +13,8 @@ function getFill(type) {
       return 'red';
     case CellType.WALL:
       return 'black';
+    case CellType.DITCH:
+      return 'brown';
   }
 }
 
@@ -24,6 +27,9 @@ class Cell {
       case CellType.PLAYER:
       case CellType.WALL:
         this.on = true;
+        break;
+      case CellType.DITCH:
+        this.on = false;
         break;
       default:
         break;
@@ -39,6 +45,9 @@ class Cell {
       case CellType.PLAYER:
       case CellType.WALL:
         this.on = true;
+        break;
+      case CellType.DITCH:
+        this.on = false;
         break;
     }
   }

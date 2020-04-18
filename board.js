@@ -59,7 +59,7 @@ class Board {
         ctx.canvas.beginPath();
         ctx.canvas.rect(
             i * ctx.cellSize, j * ctx.cellSize, ctx.cellSize, ctx.cellSize);
-        if (cell.on) {
+        if (cell.on || cell.type == CellType.DITCH) {
           ctx.canvas.fill();
         } else {
           ctx.canvas.stroke();

@@ -12,22 +12,23 @@ let player = {x: 16, y: 8};
 
 function init() {
   const level = new Level([
-    '                                         XXX      ',
-    '                         .                X       ',
-    '                       . .               XXX      ',
-    '             ..      ..            ..     X       ',
-    '            .   .    ..            ..    XXX      ',
-    ' ..        .     .   ..                   X       ',
-    ' ..        .   . ..    . .               XXX      ',
-    '           .     .       .                X       ',
-    '            .   .                        XXX      ',
-    '             ..                           X       ',
-    '                                         XXX      ',
-    '                                          X       ',
-    '                                         XXX      ',
-    'X X X X X X X X X X X               X X X X       ',
-    'XXXXXXXXXXXXXXXXXXXXX               XXXXXXXX      ',
-    'X X X X X X X X X X X               X X X X       ',
+    '                                          *       ',
+    '                         .                *       ',
+    '                       . .                *       ',
+    '             ..      ..            ..     *       ',
+    '            .   .    ..            ..     *       ',
+    ' ..        .     .   ..                   *       ',
+    ' ..        .   . ..    . .                *       ',
+    '           .     .       .                *       ',
+    '            .   .                         *       ',
+    '             ..                           *       ',
+    '                                          *       ',
+    '                                          *       ',
+    '                                          *       ',
+    '                                          *       ',
+    '*********************               *******       ',
+    '                                                  ',
+    '                                                  ',
     '                                                  ',
     '                                                  ',
     '                                                  ',
@@ -66,28 +67,28 @@ function run() {
 initKeyListener({
   37: () => {
     const newPos = {x: Math.max(player.x - 1, 0), y: player.y};
-    if (board.at(newPos.x, newPos.y).type == CellType.WALL) return;
+    if (board.at(newPos.x, newPos.y).type != CellType.NORMAL) return;
     board.setType(player.x, player.y, CellType.NORMAL);
     player = newPos;
     board.setType(player.x, player.y, CellType.PLAYER);
   },
   38: () => {
     const newPos = {x: player.x, y: Math.max(player.y - 1, 0)};
-    if (board.at(newPos.x, newPos.y).type == CellType.WALL) return;
+    if (board.at(newPos.x, newPos.y).type != CellType.NORMAL) return;
     board.setType(player.x, player.y, CellType.NORMAL);
     player = newPos;
     board.setType(player.x, player.y, CellType.PLAYER);
   },
   39: () => {
     const newPos = {x: Math.min(player.x + 1, boardWidth - 1), y: player.y};
-    if (board.at(newPos.x, newPos.y).type == CellType.WALL) return;
+    if (board.at(newPos.x, newPos.y).type != CellType.NORMAL) return;
     board.setType(player.x, player.y, CellType.NORMAL);
     player = newPos;
     board.setType(player.x, player.y, CellType.PLAYER);
   },
   40: () => {
     const newPos = {x: player.x, y: Math.min(player.y + 1, boardHeight - 1)};
-    if (board.at(newPos.x, newPos.y).type == CellType.WALL) return;
+    if (board.at(newPos.x, newPos.y).type != CellType.NORMAL) return;
     board.setType(player.x, player.y, CellType.NORMAL);
     player = newPos;
     board.setType(player.x, player.y, CellType.PLAYER);

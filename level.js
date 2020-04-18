@@ -11,8 +11,11 @@ class Level {
         switch (this.map[j][i]) {
           case ' ':
             continue;
-          case 'X':
+          case 'W':
             board.set(i, j, new Cell(true, CellType.WALL));
+            break;
+          case '*':
+            board.set(i, j, new Cell(true, CellType.DITCH));
             break;
           case 'P':
             board.set(i, j, new Cell(true, CellType.PLAYER));
