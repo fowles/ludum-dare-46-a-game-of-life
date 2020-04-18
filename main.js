@@ -115,6 +115,11 @@ initKeyListener({
       const wasRunning = (gameState == State.PLAYING);
       gameState = State.RESTARTING;
       if (!wasRunning) run();
+      if (gameState == State.WON) {
+        currentLevelIndex++;
+        restartGame(currentLevelIndex)
+      }
+      restartGame(currentLevelIndex);
     },
   },
 

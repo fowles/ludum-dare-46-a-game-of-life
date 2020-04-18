@@ -111,6 +111,19 @@ class Board {
           };
           window.requestAnimationFrame(animate);
         }
+        let fontSize = 30
+        ctx.canvas.font = fontSize.toString() + 'px Arial';
+        ctx.canvas.fillStyle = "black";
+        switch (gameState) {
+          case State.WON:
+            ctx.canvas.fillText("You beat level " + currentLevelIndex + ". Press n to begin the next level.",
+                0, (this.height+1)*ctx.cellSize + fontSize);
+            break;
+          case State.LOST:
+            ctx.canvas.fillText("You lost. Press n to retry.",
+                0, (this.height+1)*ctx.cellSize + fontSize);
+            break;
+        }
       }
     }
 
