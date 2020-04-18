@@ -41,7 +41,7 @@ const level1 = new Level([
   '**************************************************',
 ]);
 
-const updateIntervalMs = 20;
+let updateIntervalMs = 40;
 let cellSize = 0;
 let board;
 
@@ -142,6 +142,28 @@ initKeyListener({
     keydown: () => {
       restartGame(currentLevel);
     },
+  },
+
+  // '+'
+  187: {
+    keydown: () => {
+      updateIntervalMs /= 2;
+    }
+  },
+  // '-'
+  189: {
+    keydown: () => {
+      updateIntervalMs *= 2;
+    }
+  },
+  // '\'
+  220: {
+    keydown: () => {
+      const newUpdate = window.prompt(
+          'New Update interval in milliseconds (currently ' + updateIntervalMs +
+          'ms)');
+      if (newUpdate) updateIntervalMs = newUpdate;
+    }
   },
 });
 
