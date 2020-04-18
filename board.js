@@ -31,9 +31,9 @@ class Board {
       if (newCell.type == CellType.END) {
         gameState = State.WON;
       }
-      this.set(player.x, player.y, new Cell(false, CellType.NORMAL));
-      player = newPos;
-      this.set(player.x, player.y, new Cell(true, CellType.PLAYER));
+      this.set(this.player.x, this.player.y, new Cell(false, CellType.NORMAL));
+      this.player = newPos;
+      this.set(this.player.x, this.player.y, new Cell(true, CellType.PLAYER));
     }
   }
 
