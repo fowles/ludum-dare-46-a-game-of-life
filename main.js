@@ -6,8 +6,8 @@
  *
  * @author http://ankr.dk
  */
-var canvas = document.getElementById('c').getContext('2d');
-var cells = [];
+let canvas = document.getElementById('c').getContext('2d');
+let cells = [];
 let player = {x: 16, y: 8};
 
 /**
@@ -16,10 +16,10 @@ let player = {x: 16, y: 8};
  * Will place a Gosper glider gun in the world and start simulation.
  */
 function init() {
-  for (var i = 0; i < 64; i++) {
+  for (let i = 0; i < 64; i++) {
     cells[i] = [];
-    for (var j = 0; j < 64; j++) {
-      cells[i][j] = 0;
+    for (let j = 0; j < 64; j++) {
+      cells[i][j] = new Cell();
     }
   }
 
@@ -79,8 +79,8 @@ function init() {
       [60, 51],
       [61, 51],
       [62, 51],
-  ].forEach(function(point) {
-    cells[point[0]][point[1]] = 1;
+  ].forEach((point) => {
+    cells[point[0]][point[1]] = new Cell(true);
   });
 }
 
@@ -95,8 +95,8 @@ function update() {
    */
   function _countNeighbours(x, y) {
     function _isFilled(x, y) {
-      if (player.x == x && player.y == y) return 1;
-      return cells[x] && cells[x][y];
+      if (player.x == x && player.y == y) return true;
+      return cells[x] && cells[x][y] && cells[x][y].on;
     }
 
     let amount = -_isFilled(x, y);
@@ -114,13 +114,13 @@ function update() {
     row.forEach((cell, y) => {
       let alive = 0, count = _countNeighbours(x, y);
 
-      if (cell > 0) {
-        alive = count === 2 || count === 3 ? 1 : 0;
+      if (cell.on) {
+        alive = count === 2 || count === 3;
       } else {
-        alive = count === 3 ? 1 : 0;
+        alive = count === 3;
       }
 
-      result[x][y] = alive;
+      result[x][y] = new Cell(alive);
     });
   });
 
@@ -140,7 +140,7 @@ function run() {
  * Draw cells on canvas
  */
 function draw() {
-  canvas.clearRect(0, 0, 64*8, 64*8);
+  canvas.clearRect(0, 0, 64 * 8, 64 * 8);
   canvas.strokeStyle = '#e1e1e1';
   canvas.fillStyle = 'cadetblue';
 
@@ -148,7 +148,7 @@ function draw() {
     row.forEach((cell, y) => {
       canvas.beginPath();
       canvas.rect(x * 8, y * 8, 8, 8);
-      if (cell) {
+      if (cell.on) {
         canvas.fill();
       } else {
         canvas.stroke();
