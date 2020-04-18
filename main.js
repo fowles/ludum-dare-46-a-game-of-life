@@ -1,5 +1,9 @@
 // import { keys } from './keys.js';
 
+let updateIntervalMs = 50;
+let boardWidth = 40;
+let boardHeight = 40;
+
 /*Conway's Game of Life.
  *
  * A simple Javascript implementation by ankr.
@@ -16,9 +20,9 @@ let player = {x: 16, y: 8};
  * Will place a Gosper glider gun in the world and start simulation.
  */
 function init() {
-  for (let i = 0; i < 64; i++) {
+  for (let i = 0; i < boardWidth; i++) {
     cells[i] = [];
-    for (let j = 0; j < 64; j++) {
+    for (let j = 0; j < boardHeight; j++) {
       cells[i][j] = new Cell();
     }
   }
@@ -67,18 +71,18 @@ function init() {
       // If you wait enough time these will eventually take part
       // in destroying the glider gun, and the simulation will be in a "static"
       // state.
-      [60, 47],
-      [61, 47],
-      [62, 47],
-      [60, 48],
-      [61, 48],
-      [62, 48],
-      [60, 49],
-      [61, 49],
-      [62, 49],
-      [60, 51],
-      [61, 51],
-      [62, 51],
+      // [60, 47],
+      // [61, 47],
+      // [62, 47],
+      // [60, 48],
+      // [61, 48],
+      // [62, 48],
+      // [60, 49],
+      // [61, 49],
+      // [62, 49],
+      // [60, 51],
+      // [61, 51],
+      // [62, 51],
   ].forEach((point) => {
     cells[point[0]][point[1]] = new Cell(true);
   });
@@ -91,9 +95,9 @@ function update() {
   let result = [];
 
   /**
-   * Return amount of alive neighbours for a cell
+   * Return amount of alive neighbors for a cell
    */
-  function _countNeighbours(x, y) {
+  function _countNeighbors(x, y) {
     function _isFilled(x, y) {
       if (player.x == x && player.y == y) return true;
       return cells[x] && cells[x][y] && cells[x][y].on;
@@ -109,30 +113,35 @@ function update() {
     return amount;
   }
 
+
   cells.forEach((row, x) => {
-    result[x] = [];
     row.forEach((cell, y) => {
-      result[x][y] = cell.update({x: x, y: y});
+      cell.updateNeighborCounts({x: x, y: y});
+    });
+  });
+
+  cells.forEach((row, x) => {
+   row.forEach((cell, y) => {
+      cell.update({x: x, y: y});
     });
   });
 
   // The player tramples the grass.
   // result[player.x][player.y] = new Cell(false, CellType.PLAYER);
-  cells = result;
 
   draw();
 }
 
 function run() {
   update()
-  setTimeout(run, 40);
+  setTimeout(run, updateIntervalMs);
 }
 
 /**
  * Draw cells on canvas
  */
 function draw() {
-  canvas.clearRect(0, 0, 64 * 8, 64 * 8);
+  canvas.clearRect(0, 0, boardWidth * 8, boardHeight * 8);
   canvas.strokeStyle = '#e1e1e1';
   canvas.fillStyle = 'cadetblue';
 
@@ -180,5 +189,6 @@ initKeyListener({
     cells[player.x][player.y].type = CellType.PLAYER;
   }
 });
+
 init();
 run();
