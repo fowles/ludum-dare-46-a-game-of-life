@@ -24,6 +24,8 @@ class Level {
           case '.':
             board.set(i, j, new Cell(true));
             break;
+          case 'A':
+            board.set(i, j, new Cell(true, CellType.STAY_ALIVE))
         }
       }
     }

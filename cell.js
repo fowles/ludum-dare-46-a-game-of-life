@@ -3,6 +3,7 @@ const CellType = {
   PLAYER: 1,
   WALL: 2,
   DITCH: 3,
+  STAY_ALIVE: 4,
 };
 
 function getFill(type) {
@@ -15,6 +16,8 @@ function getFill(type) {
       return 'black';
     case CellType.DITCH:
       return 'brown';
+    case CellType.STAY_ALIVE:
+      return 'pink';
   }
 }
 
@@ -38,16 +41,19 @@ class Cell {
 
   update() {
     switch (this.type) {
-      case CellType.NORMAL: {
-        const count = this.lastRoundNeighborCount;
-        this.on = (count == 3 || count == 2 && this.on);
-      } break;
+      case CellType.NORMAL:{
+          const count = this.lastRoundNeighborCount;
+          this.on = (count == 3 || count == 2 && this.on);
+        } break;
+      case CellType.STAY_ALIVE: {
+          const count = this.lastRoundNeighborCount;
+          this.on = (count == 3 || count == 2 && this.on);
+          if (!this.on) {
+            gameState = State.LOST
+          }
+        } break;
       case CellType.PLAYER: {
         this.on = true;
-        const count = this.lastRoundNeighborCount;
-        if (count == 3 || count == 2) {
-          gameState = State.LOST;
-        }
       } break;
       case CellType.WALL:
         this.on = true;
