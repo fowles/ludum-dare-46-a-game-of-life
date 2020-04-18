@@ -78,7 +78,6 @@ class Board {
   }
 
   draw(ctx) {
-
     for (let i = 0; i < this.width; ++i) {
       for (let j = 0; j < this.height; ++j) {
         ctx.canvas.strokeStyle = '#e1e1e1';
@@ -93,21 +92,31 @@ class Board {
           ctx.canvas.stroke();
         }
         if (cell.type == CellType.LOST) {
-          ctx.canvas.strokeStyle = 'red';
-          ctx.canvas.beginPath();
-          var x = i*ctx.cellSize+ctx.cellSize/2; // x coordinate
-          var y = j*ctx.cellSize+ctx.cellSize/2; // y coordinate
-          ctx.canvas.arc(x, y, 3*ctx.cellSize, 0, 2*Math.PI, true);
-          ctx.canvas.stroke();
+          let progress = 0;
+          const animate = (timestamp) => {
+            if (progress >= 1) return;
+            progress += 0.03;
+
+            ctx.canvas.strokeStyle = 'red';
+            ctx.canvas.beginPath();
+            const x = i * ctx.cellSize + ctx.cellSize / 2;
+            const y = j * ctx.cellSize + ctx.cellSize / 2;
+            const radius = (1.5 * progress) * ctx.cellSize;
+            ctx.canvas.arc(x, y, radius, 0, 2 * Math.PI, true);
+            ctx.canvas.stroke();
+
+            window.requestAnimationFrame(animate);
+          };
+          window.requestAnimationFrame(animate);
         }
       }
     }
 
-    let mid = ctx.cellSize / 2
-    let xPos = this.player.x * ctx.cellSize + mid;
-    let yPos = this.player.y * ctx.cellSize + mid;
-    let xDir = mid * this.playerDirection.x
-    let yDir = mid * this.playerDirection.y
+    const mid = ctx.cellSize / 2
+    const xPos = this.player.x * ctx.cellSize + mid;
+    const yPos = this.player.y * ctx.cellSize + mid;
+    const xDir = mid * this.playerDirection.x
+    const yDir = mid * this.playerDirection.y
     if (xDir == 0) {
       xDir = 4;
       xPos -= 2;
