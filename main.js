@@ -1,3 +1,5 @@
+// import { keys } from './keys.js';
+
 /*Conway's Game of Life.
  *
  * A simple Javascript implementation by ankr.
@@ -158,5 +160,11 @@ function draw() {
   canvas.fill();
 }
 
+initKeyListener({
+  37: () => console.log("left"),
+  38: () => console.log("up"),
+  39: () => console.log("right"),
+  40: () => console.log("down"),
+});
 init();
 run();
