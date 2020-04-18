@@ -113,12 +113,12 @@ initKeyListener({
   78: {
     keydown: () => {
       const wasRunning = (gameState == State.PLAYING);
+      if (gameState == State.WON) {
+        currentLevelIndex = currentLevelIndex + 1;
+      }
       gameState = State.RESTARTING;
       if (!wasRunning) {
         run();
-      }
-      if (gameState == State.WON) {
-        currentLevelIndex++;
       }
       restartGame(currentLevelIndex);
     },
