@@ -1,21 +1,35 @@
 const updateIntervalMs = 20;
-const boardWidth = 50;
-const boardHeight = 40;
-const cellSize = 12;
-let board = new Board(boardWidth, boardHeight);
-const canvas = document.getElementById('c').getContext('2d');
+let cellSize = 0;
+let board;
+const htmlCanvas = document.getElementById('c');
+const canvas = htmlCanvas.getContext('2d');
 
-document.getElementById('c').width = window.innerWidth;
-document.getElementById('c').height = window.innerHeight;
+htmlCanvas.width = window.innerWidth * 0.8;
+htmlCanvas.height = window.innerWidth * 0.8;
 
 function clamp(num, min, max) {
   return num <= min ? min : num >= max ? max : num;
 }
 
+function draw() {
+  canvas.clearRect(0, 0, htmlCanvas.width, htmlCanvas.height);
+  board.draw({canvas: canvas, cellSize: cellSize});
+}
+
 let player = {x: 16, y: 8};
 let playerVelocity = {x: 0, y: 0};
 
+function setCellSize() {
+  htmlCanvas.width = window.innerWidth * 0.8;
+  htmlCanvas.height = window.innerHeight * 0.8;
+  cellSize = Math.floor(Math.min(
+      htmlCanvas.width / board.width, htmlCanvas.height / board.height));
+  draw();
+}
+
 function init() {
+  window.addEventListener('resize', setCellSize);
+
   const level = new Level([
     '                                          *       ',
     '                         .                *       ',
@@ -60,6 +74,7 @@ function init() {
     '                                                  ',
   ]);
   board = level.makeBoard();
+  setCellSize();
   player = level.getPlayer();
 }
 
@@ -69,8 +84,8 @@ function run() {
   // Check player new position after the board has been updated but before
   // drawing.
   const newPos = {
-    x: clamp(player.x + playerVelocity.x, 0, boardWidth - 1),
-    y: clamp(player.y + playerVelocity.y, 0, boardHeight - 1)
+    x: clamp(player.x + playerVelocity.x, 0, board.width- 1),
+    y: clamp(player.y + playerVelocity.y, 0, board.height - 1)
   };
   if (board.at(newPos.x, newPos.y).type == CellType.NORMAL) {
     board.set(player.x, player.y, new Cell(false, CellType.NORMAL));
@@ -78,7 +93,7 @@ function run() {
     board.set(player.x, player.y, new Cell(true, CellType.PLAYER));
   }
 
-  board.draw({canvas: canvas, cellSize: cellSize});
+  draw();
   setTimeout(run, updateIntervalMs);
 }
 

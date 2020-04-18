@@ -47,8 +47,6 @@ class Board {
   }
 
   draw(ctx) {
-    ctx.canvas.clearRect(
-        0, 0, this.width * ctx.cellSize, this.height * ctx.cellSize);
     ctx.canvas.strokeStyle = '#e1e1e1';
 
     for (let i = 0; i < this.width; ++i) {
