@@ -64,7 +64,11 @@ function run() {
     x: clamp(player.x + playerVelocity.x, 0, board.width- 1),
     y: clamp(player.y + playerVelocity.y, 0, board.height - 1)
   };
-  if (!blocksPlayer(board.at(newPos.x, newPos.y).type)) {
+  const newCell = board.at(newPos.x, newPos.y);
+  if (!blocksPlayer(newCell.type)) {
+    if (newCell.type == CellType.END) {
+      gameState = State.WON;
+    }
     board.set(player.x, player.y, new Cell(false, CellType.NORMAL));
     player = newPos;
     board.set(player.x, player.y, new Cell(true, CellType.PLAYER));
