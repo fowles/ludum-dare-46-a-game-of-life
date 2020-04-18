@@ -41,6 +41,26 @@ const level1 = new Level([
   '**************************************************',
 ]);
 
+const level2 = new Level([
+  '***********************',
+  '*                 *   *',
+  '*  ************** * * *',
+  '*  EE   *         * * *',
+  '*  EE   * ********* * *',
+  '*       * *   *   * * *',
+  '*     AA* * * * * * * *',
+  '*     AA*   * * * * * *',
+  '****  ******* * * * * *',
+  '*           * * * * * *',
+  '*   P       * * * * * *',
+  '*           *   *   * *',
+  '*           ********* *',
+  '*                     *',
+  '***********************',
+]);
+
+
+
 let updateIntervalMs = 40;
 let cellSize = 0;
 let board;
@@ -57,7 +77,7 @@ function draw() {
 }
 
 let playerVelocity = {x: 0, y: 0};
-let currentLevel = level1;
+let currentLevel = level2;
 
 const State = {
   PLAYING: 0,
