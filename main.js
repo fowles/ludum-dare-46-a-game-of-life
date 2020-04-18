@@ -95,7 +95,7 @@ function update() {
    */
   function _countNeighbours(x, y) {
     function _isFilled(x, y) {
-      if (player[0] == x && player[1] == y) return true;
+      if (player.x == x && player.y == y) return true;
       return cells[x] && cells[x][y];
     }
 
