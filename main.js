@@ -1,15 +1,13 @@
-const updateIntervalMs = 50;
+const updateIntervalMs = 20;
 const boardWidth = 50;
 const boardHeight = 40;
+const cellSize = 15;
 const board = new Board(boardWidth, boardHeight);
+const canvas = document.getElementById('c').getContext('2d');
 
-/*Conway's Game of Life.
- *
- * A simple Javascript implementation by ankr.
- *
- * @author http://ankr.dk
- */
-let canvas = document.getElementById('c').getContext('2d');
+document.getElementById('c').width = window.innerWidth;
+document.getElementById('c').height = window.innerHeight;
+
 
 let player = {x: 16, y: 8};
 
@@ -78,11 +76,13 @@ function init() {
   ].forEach((point) => {
     board.set(point[0], point[1] , new Cell(true));
   });
+
+  board.set(player.x, player.y, new Cell(true, CellType.PLAYER));
 }
 
 function run() {
   board.update();
-  board.draw();
+  board.draw({canvas: canvas, cellSize: cellSize});
   setTimeout(run, updateIntervalMs);
 }
 

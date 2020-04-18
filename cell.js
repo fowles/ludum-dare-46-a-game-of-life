@@ -3,6 +3,15 @@ const CellType = {
   PLAYER: 1,
 };
 
+function getFill(type) {
+  switch (type) {
+    case CellType.NORMAL:
+      return 'cadetblue';
+    case CellType.PLAYER:
+      return 'red';
+  }
+}
+
 class Cell {
   constructor(on = false, type = CellType.NORMAL) {
     this.type = type;

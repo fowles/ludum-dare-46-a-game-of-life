@@ -46,26 +46,25 @@ class Board {
     }
   }
 
-  draw() {
-    canvas.clearRect(0, 0, this.width * 8, this.height * 8);
-    canvas.strokeStyle = '#e1e1e1';
-    canvas.fillStyle = 'cadetblue';
+  draw(ctx) {
+    ctx.canvas.clearRect(
+        0, 0, this.width * ctx.cellSize, this.height * ctx.cellSize);
+    ctx.canvas.strokeStyle = '#e1e1e1';
 
     for (let i = 0; i < this.width; ++i) {
       for (let j = 0; j < this.height; ++j) {
-        canvas.beginPath();
-        canvas.rect(i * 8, j * 8, 8, 8);
-        if (this.at(i, j).on) {
-          canvas.fill();
+        const cell = this.at(i, j);
+
+        ctx.canvas.fillStyle = getFill(cell.type);
+        ctx.canvas.beginPath();
+        ctx.canvas.rect(
+            i * ctx.cellSize, j * ctx.cellSize, ctx.cellSize, ctx.cellSize);
+        if (cell.on) {
+          ctx.canvas.fill();
         } else {
-          canvas.stroke();
+          ctx.canvas.stroke();
         }
       }
     }
-
-    canvas.fillStyle = 'red';
-    canvas.beginPath();
-    canvas.rect(player.x * 8, player.y * 8, 8, 8);
-    canvas.fill();
   }
 }
