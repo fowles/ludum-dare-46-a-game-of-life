@@ -112,20 +112,12 @@ function update() {
   cells.forEach((row, x) => {
     result[x] = [];
     row.forEach((cell, y) => {
-      let alive = 0, count = _countNeighbours(x, y);
-
-      if (cell.on) {
-        alive = count === 2 || count === 3;
-      } else {
-        alive = count === 3;
-      }
-
-      result[x][y] = new Cell(alive);
+      result[x][y] = cell.update({x: x, y: y});
     });
   });
 
   // The player tramples the grass.
-  result[player.x][player.y] = 0;
+  // result[player.x][player.y] = new Cell(false, CellType.PLAYER);
   cells = result;
 
   draw();
@@ -133,7 +125,7 @@ function update() {
 
 function run() {
   update()
-  setTimeout(run, 20);
+  setTimeout(run, 40);
 }
 
 /**
@@ -164,20 +156,28 @@ function draw() {
 
 initKeyListener({
   37: () => {
+    cells[player.x][player.y].type = CellType.NORMAL;
     --player.x;
     if (player.x < 0) player.x = 0;
+    cells[player.x][player.y].type = CellType.PLAYER;
   },
   38: () => {
+    cells[player.x][player.y].type = CellType.NORMAL;
     --player.y;
     if (player.y < 0) player.y = 0;
+    cells[player.x][player.y].type = CellType.PLAYER;
   },
   39: () => {
+    cells[player.x][player.y].type = CellType.NORMAL;
     ++player.x;
     if (player.x > 63) player.x = 63;
+    cells[player.x][player.y].type = CellType.PLAYER;
   },
   40: () => {
+    cells[player.x][player.y].type = CellType.NORMAL;
     ++player.y;
     if (player.y > 63) player.y = 63;
+    cells[player.x][player.y].type = CellType.PLAYER;
   }
 });
 init();
