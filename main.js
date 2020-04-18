@@ -128,7 +128,7 @@ initKeyListener({
     keydown: () => {
       const newLevelIndex =
           window.prompt('Go to level (current ' + currentLevelIndex + ')');
-      if (newLevelIndex !== undefined) {
+      if (newLevelIndex !== null) {
         const levelChange = (newLevelIndex != currentLevelIndex);
         currentLevelIndex = newLevelIndex;
         if (levelChange) restartGame(currentLevelIndex);
