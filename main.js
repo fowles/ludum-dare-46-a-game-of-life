@@ -1,4 +1,4 @@
-const updateIntervalMs = 20;
+const updateIntervalMs = 200;
 const boardWidth = 50;
 const boardHeight = 40;
 const cellSize = 15;
@@ -18,7 +18,7 @@ let player = {x: 16, y: 8};
  */
 function init() {
   // Prefilled cells
-  [
+  /*[
       // Gosper glider gun
       [1, 5],
       [1, 6],
@@ -76,8 +76,19 @@ function init() {
   ].forEach((point) => {
     board.set(point[0], point[1] , new Cell(true));
   });
+      */
 
   board.set(player.x, player.y, new Cell(true, CellType.PLAYER));
+
+  for (let i = 5; i < 10; ++i) {
+    board.set(i, 13, new Cell(true, CellType.WALL));
+    board.set(i, 15, new Cell(true, CellType.WALL));
+  }
+
+  for (let i = 12; i < 30; ++i) {
+    board.set(i, 13, new Cell(true, CellType.WALL));
+    board.set(i, 15, new Cell(true, CellType.WALL));
+  }
 }
 
 function run() {
@@ -88,28 +99,33 @@ function run() {
 
 initKeyListener({
   37: () => {
+    const newPos = {x: Math.max(player.x - 1, 0), y: player.y};
+    if (board.at(newPos.x, newPos.y).type == CellType.WALL) return;
     board.setType(player.x, player.y, CellType.NORMAL);
-    --player.x;
-    if (player.x < 0) player.x = 0;
+    player = newPos;
     board.setType(player.x, player.y, CellType.PLAYER);
   },
   38: () => {
+    const newPos = {x: player.x, y: Math.max(player.y - 1, 0)};
+    if (board.at(newPos.x, newPos.y).type == CellType.WALL) return;
     board.setType(player.x, player.y, CellType.NORMAL);
-    --player.y;
-    if (player.y < 0) player.y = 0;
+    player = newPos;
     board.setType(player.x, player.y, CellType.PLAYER);
   },
   39: () => {
+    const newPos = {x: Math.min(player.x + 1, boardWidth - 1), y: player.y};
+    if (board.at(newPos.x, newPos.y).type == CellType.WALL) return;
     board.setType(player.x, player.y, CellType.NORMAL);
-    ++player.x;
-    if (player.x > boardWidth - 1) player.x = boardWidth - 1;
+    player = newPos;
     board.setType(player.x, player.y, CellType.PLAYER);
   },
   40: () => {
+    const newPos = {x: player.x, y: Math.min(player.y + 1, boardHeight - 1)};
+    if (board.at(newPos.x, newPos.y).type == CellType.WALL) return;
     board.setType(player.x, player.y, CellType.NORMAL);
-    ++player.y;
-    if (player.y > boardHeight - 1) player.y = boardHeight - 1;
+    player = newPos;
     board.setType(player.x, player.y, CellType.PLAYER);
+    draw();
   }
 });
 
