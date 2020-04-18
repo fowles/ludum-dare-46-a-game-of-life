@@ -138,7 +138,7 @@ function run() {
  * Draw cells on canvas
  */
 function draw() {
-  canvas.clearRect(0, 0, 1512, 512);
+  canvas.clearRect(0, 0, 64*8, 64*8);
   canvas.strokeStyle = '#e1e1e1';
   canvas.fillStyle = 'cadetblue';
 
