@@ -94,11 +94,6 @@ class Board {
         if (cell.type == CellType.LOST) {
           let progress = 0;
           const animate = () => {
-            ctx.overlay.font = '48px serif';
-            ctx.overlay.textAlign = "center";
-            ctx.overlay.fillText(
-                'You didn\'t keep it alive.', htmlCanvas.width / 2,
-                htmlCanvas.height / 2);
             if (progress >= 1) return;
             progress += 0.03;
 
@@ -118,15 +113,19 @@ class Board {
         }
         let fontSize = 30
         ctx.canvas.font = fontSize.toString() + 'px Arial';
-        ctx.canvas.fillStyle = "black";
+        ctx.canvas.textAlign = 'center';
+        ctx.canvas.fillStyle = 'black';
         switch (gameState) {
           case State.WON:
-            ctx.canvas.fillText("You beat level " + currentLevelIndex + ". Press n to begin the next level.",
-                0, (this.height+1)*ctx.cellSize + fontSize);
+            ctx.canvas.fillText(
+                'You kept it alive in level ' + currentLevelIndex +
+                    '. Press \'n\' to begin the next level.',
+                htmlCanvas.width / 2, htmlCanvas.height / 2);
             break;
           case State.LOST:
-            ctx.canvas.fillText("You lost. Press n to retry.",
-                0, (this.height+1)*ctx.cellSize + fontSize);
+            ctx.canvas.fillText(
+                'You didn\'t keep it alive. Press \'n\' to retry.',
+                htmlCanvas.width / 2, htmlCanvas.height / 2);
             break;
         }
       }

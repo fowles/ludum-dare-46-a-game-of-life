@@ -49,25 +49,26 @@ function init() {
   gameState = State.RESTARTING;
 }
 
+let isRunning = true;
 function run() {
   switch (gameState) {
     case State.PLAYING:
-      break;
+      board.update();
+      board.movePlayer(playerVelocity)
+      draw();
+      setTimeout(run, updateIntervalMs);
+      return;
     case State.RESTARTING:
-      restartGame(currentLevelIndex);
+      isRunning = false;
+      setTimeout(() => restartGame(currentLevelIndex), 0);
       return;
     case State.WON:
-      console.log('You won.');
+      isRunning = false;
       return;
     case State.LOST:
-      console.log('You lost.');
+      isRunning = false;
       return;
   }
-
-  board.update();
-  board.movePlayer(playerVelocity)
-  draw();
-  setTimeout(run, updateIntervalMs);
 }
 
 function restartGame(levelIndex) {
@@ -77,6 +78,7 @@ function restartGame(levelIndex) {
   updateIntervalMs = level.updateInterval;
   board.warpPlayer(level.getPlayer());
   gameState = State.PLAYING;
+  isRunning = true;
   setTimeout(run, 0);
 }
 
@@ -117,10 +119,7 @@ initKeyListener({
         currentLevelIndex = currentLevelIndex + 1;
       }
       gameState = State.RESTARTING;
-      if (!wasRunning) {
-        run();
-      }
-      restartGame(currentLevelIndex);
+      if (!isRunning) run();
     },
   },
 
@@ -154,9 +153,8 @@ initKeyListener({
         const levelChange = (newLevelIndex != currentLevelIndex);
         currentLevelIndex = newLevelIndex;
         if (levelChange) {
-          const wasRunning = (gameState == State.PLAYING);
           gameState = State.RESTARTING;
-          if (!wasRunning) run();
+          if (!isRunning) run();
         }
       }
     }
