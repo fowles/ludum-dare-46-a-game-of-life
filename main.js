@@ -23,6 +23,7 @@ const State = {
   RESTARTING: 3,
 };
 let gameState = State.RESTARTING;
+let losingSquares = [];
 
 function setCellSize() {
   htmlCanvas.width = window.innerWidth * 0.8;

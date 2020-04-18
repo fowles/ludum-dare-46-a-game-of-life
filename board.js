@@ -78,10 +78,10 @@ class Board {
   }
 
   draw(ctx) {
-    ctx.canvas.strokeStyle = '#e1e1e1';
 
     for (let i = 0; i < this.width; ++i) {
       for (let j = 0; j < this.height; ++j) {
+        ctx.canvas.strokeStyle = '#e1e1e1';
         const cell = this.at(i, j);
         ctx.canvas.fillStyle = getFill(cell.type);
         ctx.canvas.beginPath();
@@ -90,6 +90,17 @@ class Board {
         if (cell.on || cell.type != CellType.NORMAL) {
           ctx.canvas.fill();
         } else {
+          ctx.canvas.stroke();
+        }
+        if (cell.type == CellType.LOST) {
+          ctx.canvas.strokeStyle = 'red';
+          ctx.canvas.beginPath();
+          var x = i*ctx.cellSize+ctx.cellSize/2; // x coordinate
+          var y = j*ctx.cellSize+ctx.cellSize/2; // y coordinate
+          var radius = 2.5*ctx.cellSize; // Arc radius
+          var startAngle = 0; // Starting point on circle
+          var endAngle = 2*Math.PI; // End point on circle
+          ctx.canvas.arc(x, y, radius, startAngle, endAngle, true);
           ctx.canvas.stroke();
         }
       }

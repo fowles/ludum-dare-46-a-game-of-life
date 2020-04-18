@@ -5,6 +5,7 @@ const CellType = {
   DITCH: 3,
   STAY_ALIVE: 4,
   END: 5,
+  LOST: 6,  // the STAY_ALIVE square(s) that caused the Loss
 };
 
 // Returns true if the player cannot walk through this cell-type.
@@ -67,6 +68,7 @@ class Cell {
           this.on = (count == 3 || count == 2 && this.on);
           if (!this.on) {
             gameState = State.LOST
+            this.type = CellType.LOST;
           }
         } break;
       case CellType.PLAYER: {
