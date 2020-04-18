@@ -97,10 +97,7 @@ class Board {
           ctx.canvas.beginPath();
           var x = i*ctx.cellSize+ctx.cellSize/2; // x coordinate
           var y = j*ctx.cellSize+ctx.cellSize/2; // y coordinate
-          var radius = 2.5*ctx.cellSize; // Arc radius
-          var startAngle = 0; // Starting point on circle
-          var endAngle = 2*Math.PI; // End point on circle
-          ctx.canvas.arc(x, y, radius, startAngle, endAngle, true);
+          ctx.canvas.arc(x, y, 3*ctx.cellSize, 0, 2*Math.PI, true);
           ctx.canvas.stroke();
         }
       }
