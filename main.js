@@ -96,20 +96,17 @@ function update() {
    * Return amount of alive neighbours for a cell
    */
   function _countNeighbours(x, y) {
-    var amount = 0;
 
     function _isFilled(x, y) {
       return cells[x] && cells[x][y];
     }
 
-    if (_isFilled(x - 1, y - 1)) amount++;
-    if (_isFilled(x, y - 1)) amount++;
-    if (_isFilled(x + 1, y - 1)) amount++;
-    if (_isFilled(x - 1, y)) amount++;
-    if (_isFilled(x + 1, y)) amount++;
-    if (_isFilled(x - 1, y + 1)) amount++;
-    if (_isFilled(x, y + 1)) amount++;
-    if (_isFilled(x + 1, y + 1)) amount++;
+    var amount = -_isFilled(x, y);
+    for (i = -1; i <= 1; ++i) {
+      for (j = -1; j <= 1; ++j) {
+        if (_isFilled(x - i, y - j)) amount++;
+      }
+    }
 
     return amount;
   }
