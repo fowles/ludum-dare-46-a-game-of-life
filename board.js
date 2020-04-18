@@ -19,7 +19,9 @@ class Board {
   }
 
   movePlayer(playerVelocity) {
-    this.playerDirection = playerVelocity
+    if (playerVelocity.x != 0 || playerVelocity.y != 0) {
+      this.playerDirection = playerVelocity
+    }
 
     const newPos = {
       x: clamp(this.player.x + playerVelocity.x, 0, this.width - 1),
@@ -92,5 +94,17 @@ class Board {
         }
       }
     }
+
+    let mid = ctx.cellSize / 2
+    let xDir = mid * this.playerDirection.x
+    let yDir = mid * this.playerDirection.y
+    if (xDir == 0) xDir = 1
+    if (yDir == 0) yDir = 1
+    ctx.canvas.beginPath();
+    ctx.canvas.rect(
+        this.player.x * ctx.cellSize + mid, //
+        this.player.y * ctx.cellSize + mid, //
+        xDir, yDir);
+    ctx.canvas.stroke();
   }
 }
