@@ -8,8 +8,6 @@ var canvas = document.getElementById('c').getContext('2d'), cells = [];
 canvas.strokeStyle = '#e1e1e1';
 canvas.fillStyle = 'cadetblue';
 
-init();
-
 /**
  * Initialize game.
  *
@@ -82,26 +80,23 @@ function init() {
   ].forEach(function(point) {
     cells[point[0]][point[1]] = 1;
   });
-
-  update();
 }
 
 /**
  * Check which cells are still alive.
  */
 function update() {
-  var result = [];
+  let result = [];
 
   /**
    * Return amount of alive neighbours for a cell
    */
   function _countNeighbours(x, y) {
-
     function _isFilled(x, y) {
       return cells[x] && cells[x][y];
     }
 
-    var amount = -_isFilled(x, y);
+    let amount = -_isFilled(x, y);
     for (i = -1; i <= 1; ++i) {
       for (j = -1; j <= 1; ++j) {
         if (_isFilled(x - i, y - j)) amount++;
@@ -111,10 +106,10 @@ function update() {
     return amount;
   }
 
-  cells.forEach(function(row, x) {
+  cells.forEach((row, x) => {
     result[x] = [];
-    row.forEach(function(cell, y) {
-      var alive = 0, count = _countNeighbours(x, y);
+    row.forEach((cell, y) => {
+      let alive = 0, count = _countNeighbours(x, y);
 
       if (cell > 0) {
         alive = count === 2 || count === 3 ? 1 : 0;
@@ -131,13 +126,19 @@ function update() {
   draw();
 }
 
+function run() {
+  update()
+  setTimeout(run, 20);
+  // window.requestAnimationFrame(update); // Too fast!
+}
+
 /**
  * Draw cells on canvas
  */
 function draw() {
   canvas.clearRect(0, 0, 1512, 512);
-  cells.forEach(function(row, x) {
-    row.forEach(function(cell, y) {
+  cells.forEach((row, x) => {
+    row.forEach((cell, y) => {
       canvas.beginPath();
       canvas.rect(x * 8, y * 8, 8, 8);
       if (cell) {
@@ -147,8 +148,7 @@ function draw() {
       }
     });
   });
-  setTimeout(function() {
-    update();
-  }, 20);
-  // window.requestAnimationFrame(update); // Too fast!
 }
+
+init();
+run();
