@@ -161,10 +161,22 @@ function draw() {
 }
 
 initKeyListener({
-  37: () => --player.x,
-  38: () => --player.y,
-  39: () => ++player.x,
-  40: () => ++player.y,
+  37: () => {
+    --player.x;
+    if (player.x < 0) player.x = 0;
+  },
+  38: () => {
+    --player.y;
+    if (player.y < 0) player.y = 0;
+  },
+  39: () => {
+    ++player.x;
+    if (player.x > 63) player.x = 63;
+  },
+  40: () => {
+    ++player.y;
+    if (player.y > 63) player.y = 63;
+  }
 });
 init();
 run();
