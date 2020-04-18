@@ -71,9 +71,11 @@ function run() {
 }
 
 function restartGame(levelIndex) {
-  board = levels[levelIndex].makeBoard();
+  const level = levels[levelIndex];
+  board = level.makeBoard();
   setCellSize();
-  board.warpPlayer(levels[levelIndex].getPlayer());
+  updateIntervalMs = level.updateInterval;
+  board.warpPlayer(level.getPlayer());
   gameState = State.PLAYING;
   setTimeout(run, 0);
 }
@@ -140,7 +142,6 @@ initKeyListener({
   // 'l'
   76: {
     keydown: () => {
-      console.log("??");
       const newLevelIndex =
           window.prompt('Go to level (current ' + currentLevelIndex + ')');
       if (newLevelIndex !== null) {
