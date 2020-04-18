@@ -21,7 +21,7 @@ function draw() {
 }
 
 let playerVelocity = {x: 0, y: 0};
-let currentLevelIndex = 1;
+let currentLevelIndex = 3;
 
 const State = {
   PLAYING: 0,
@@ -161,8 +161,6 @@ initKeyListener({
       }
     }
   },
-
-
 });
 
 init();

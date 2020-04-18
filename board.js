@@ -94,6 +94,11 @@ class Board {
         if (cell.type == CellType.LOST) {
           let progress = 0;
           const animate = () => {
+            ctx.overlay.font = '48px serif';
+            ctx.overlay.textAlign = "center";
+            ctx.overlay.fillText(
+                'You didn\'t keep it alive.', htmlCanvas.width / 2,
+                htmlCanvas.height / 2);
             if (progress >= 1) return;
             progress += 0.03;
 
