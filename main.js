@@ -13,7 +13,6 @@ function draw() {
   board.draw({canvas: canvas, cellSize: cellSize});
 }
 
-let player = {x: 16, y: 8};
 let playerVelocity = {x: 0, y: 0};
 
 const State = {
@@ -37,10 +36,6 @@ function init() {
   gameState = State.RESTARTING;
 }
 
-function clamp(num, min, max) {
-  return num <= min ? min : num >= max ? max : num;
-}
-
 function run() {
   switch (gameState) {
     case State.PLAYING:
@@ -57,23 +52,7 @@ function run() {
   }
 
   board.update();
-
-  // Check player new position after the board has been updated but before
-  // drawing.
-  const newPos = {
-    x: clamp(player.x + playerVelocity.x, 0, board.width- 1),
-    y: clamp(player.y + playerVelocity.y, 0, board.height - 1)
-  };
-  const newCell = board.at(newPos.x, newPos.y);
-  if (!blocksPlayer(newCell.type)) {
-    if (newCell.type == CellType.END) {
-      gameState = State.WON;
-    }
-    board.set(player.x, player.y, new Cell(false, CellType.NORMAL));
-    player = newPos;
-    board.set(player.x, player.y, new Cell(true, CellType.PLAYER));
-  }
-
+  board.movePlayer(playerVelocity)
   draw();
   setTimeout(run, updateIntervalMs);
 }
@@ -145,43 +124,39 @@ function restartGame() {
   ]);
   board = level.makeBoard();
   setCellSize();
-  player = level.getPlayer();
+  board.warpPlayer(level.getPlayer());
   gameState = State.PLAYING;
   setTimeout(run, 0);
 }
+
+function stop() {
+  playerVelocity = {x: 0, y: 0};
+};
 
 initKeyListener({
   37: {
     keydown: () => {
       playerVelocity = {x: -1, y: 0};
     },
-    keyup: () => {
-      playerVelocity = {x: 0, y: 0};
-    },
+    keyup: stop,
   },
   38: {
     keydown: () => {
       playerVelocity = {x: 0, y: -1};
     },
-    keyup: () => {
-      playerVelocity = {x: 0, y: 0};
-    },
+    keyup: stop,
   },
   39: {
     keydown: () => {
       playerVelocity = {x: 1, y: 0};
     },
-    keyup: () => {
-      playerVelocity = {x: 0, y: 0};
-    },
+    keyup: stop,
   },
   40: {
     keydown: () => {
       playerVelocity = {x: 0, y: 1};
     },
-    keyup: () => {
-      playerVelocity = {x: 0, y: 0};
-    },
+    keyup: stop,
   },
   78: {
     keydown: restartGame,

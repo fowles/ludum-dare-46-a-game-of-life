@@ -1,3 +1,7 @@
+function clamp(num, min, max) {
+  return num <= min ? min : num >= max ? max : num;
+}
+
 class Board {
   constructor(width, height) {
     this.width = width;
@@ -5,6 +9,31 @@ class Board {
     this.cells = new Array(this.width * this.height);
     for (let i = 0; i < this.cells.length; ++i) {
       this.cells[i] = new Cell();
+    }
+    this.player = {x: 16, y: 8};
+    this.playerDirection = {x: 1, y: 0};
+  }
+
+  warpPlayer(pos) {
+    this.player = pos;
+  }
+
+  movePlayer(playerVelocity) {
+    this.playerDirection = playerVelocity
+
+    const newPos = {
+      x: clamp(this.player.x + playerVelocity.x, 0, this.width - 1),
+      y: clamp(this.player.y + playerVelocity.y, 0, this.height - 1)
+    };
+
+    const newCell = this.at(newPos.x, newPos.y);
+    if (!blocksPlayer(newCell.type)) {
+      if (newCell.type == CellType.END) {
+        gameState = State.WON;
+      }
+      this.set(player.x, player.y, new Cell(false, CellType.NORMAL));
+      player = newPos;
+      this.set(player.x, player.y, new Cell(true, CellType.PLAYER));
     }
   }
 
