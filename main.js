@@ -152,6 +152,6 @@ function draw() {
   });
   setTimeout(function() {
     update();
-  }, 70);
+  }, 20);
   // window.requestAnimationFrame(update); // Too fast!
 }
