@@ -17,19 +17,21 @@ class Cell {
     }
   }
 
-  updateNeighborCounts(p) {
-    function _isFilled(p) {
-      return cells[p.x] && cells[p.x][p.y] && cells[p.x][p.y].on;
+  updateNeighborCounts(i, j) {
+    function _isFilled(i, j) {
+      const cell = board.at(i, j);
+      return cell && cell.on;
     }
-    this.lastRoundNeighborCount = -_isFilled(p);
-    for (let i = -1; i <= 1; ++i) {
-      for (let j = -1; j <= 1; ++j) {
-        if (_isFilled({x: p.x - i, y: p.y - j})) ++this.lastRoundNeighborCount;
+
+    this.lastRoundNeighborCount = -_isFilled(i, j);
+    for (let ii = -1; ii <= 1; ++ii) {
+      for (let jj = -1; jj <= 1; ++jj) {
+        if (_isFilled(i - ii, j - jj)) ++this.lastRoundNeighborCount;
       }
     }
   }
 
-  update(p) {
+  update() {
     switch (this.type) {
       case CellType.NORMAL:
         const count = this.lastRoundNeighborCount;

@@ -1,8 +1,7 @@
-// import { keys } from './keys.js';
-
-let updateIntervalMs = 50;
-let boardWidth = 40;
-let boardHeight = 40;
+const updateIntervalMs = 50;
+const boardWidth = 50;
+const boardHeight = 40;
+const board = new Board(boardWidth, boardHeight);
 
 /*Conway's Game of Life.
  *
@@ -20,13 +19,6 @@ let player = {x: 16, y: 8};
  * Will place a Gosper glider gun in the world and start simulation.
  */
 function init() {
-  for (let i = 0; i < boardWidth; i++) {
-    cells[i] = [];
-    for (let j = 0; j < boardHeight; j++) {
-      cells[i][j] = new Cell();
-    }
-  }
-
   // Prefilled cells
   [
       // Gosper glider gun
@@ -84,109 +76,41 @@ function init() {
       // [61, 51],
       // [62, 51],
   ].forEach((point) => {
-    cells[point[0]][point[1]] = new Cell(true);
-  });
-}
-
-/**
- * Check which cells are still alive.
- */
-function update() {
-  let result = [];
-
-  /**
-   * Return amount of alive neighbors for a cell
-   */
-  function _countNeighbors(x, y) {
-    function _isFilled(x, y) {
-      if (player.x == x && player.y == y) return true;
-      return cells[x] && cells[x][y] && cells[x][y].on;
-    }
-
-    let amount = -_isFilled(x, y);
-    for (i = -1; i <= 1; ++i) {
-      for (j = -1; j <= 1; ++j) {
-        if (_isFilled(x - i, y - j)) amount++;
-      }
-    }
-
-    return amount;
-  }
-
-
-  cells.forEach((row, x) => {
-    row.forEach((cell, y) => {
-      cell.updateNeighborCounts({x: x, y: y});
-    });
+    board.set(point[0], point[1] , new Cell(true));
   });
 
-  cells.forEach((row, x) => {
-   row.forEach((cell, y) => {
-      cell.update({x: x, y: y});
-    });
-  });
-
-  // The player tramples the grass.
-  // result[player.x][player.y] = new Cell(false, CellType.PLAYER);
-
-  draw();
 }
 
 function run() {
-  update()
+  board.update();
+  board.draw();
   setTimeout(run, updateIntervalMs);
-}
-
-/**
- * Draw cells on canvas
- */
-function draw() {
-  canvas.clearRect(0, 0, boardWidth * 8, boardHeight * 8);
-  canvas.strokeStyle = '#e1e1e1';
-  canvas.fillStyle = 'cadetblue';
-
-  cells.forEach((row, x) => {
-    row.forEach((cell, y) => {
-      canvas.beginPath();
-      canvas.rect(x * 8, y * 8, 8, 8);
-      if (cell.on) {
-        canvas.fill();
-      } else {
-        canvas.stroke();
-      }
-    });
-  });
-
-  canvas.fillStyle = 'red';
-  canvas.beginPath();
-  canvas.rect(player.x * 8, player.y * 8, 8, 8);
-  canvas.fill();
 }
 
 initKeyListener({
   37: () => {
-    cells[player.x][player.y].type = CellType.NORMAL;
+    board.setType(player.x, player.y, CellType.NORMAL);
     --player.x;
     if (player.x < 0) player.x = 0;
-    cells[player.x][player.y].type = CellType.PLAYER;
+    board.setType(player.x, player.y, CellType.PLAYER);
   },
   38: () => {
-    cells[player.x][player.y].type = CellType.NORMAL;
+    board.setType(player.x, player.y, CellType.NORMAL);
     --player.y;
     if (player.y < 0) player.y = 0;
-    cells[player.x][player.y].type = CellType.PLAYER;
+    board.setType(player.x, player.y, CellType.PLAYER);
   },
   39: () => {
-    cells[player.x][player.y].type = CellType.NORMAL;
+    board.setType(player.x, player.y, CellType.NORMAL);
     ++player.x;
     if (player.x > 63) player.x = 63;
-    cells[player.x][player.y].type = CellType.PLAYER;
+    board.setType(player.x, player.y, CellType.PLAYER);
   },
   40: () => {
-    cells[player.x][player.y].type = CellType.NORMAL;
+    board.setType(player.x, player.y, CellType.NORMAL);
     ++player.y;
     if (player.y > 63) player.y = 63;
-    cells[player.x][player.y].type = CellType.PLAYER;
+    board.setType(player.x, player.y, CellType.PLAYER);
   }
 });
 
