@@ -4,9 +4,9 @@
  *
  * @author http://ankr.dk
  */
-var canvas = document.getElementById('c').getContext('2d'), cells = [];
-canvas.strokeStyle = '#e1e1e1';
-canvas.fillStyle = 'cadetblue';
+var canvas = document.getElementById('c').getContext('2d');
+var cells = [];
+var player = [32, 32];
 
 /**
  * Initialize game.
@@ -137,6 +137,9 @@ function run() {
  */
 function draw() {
   canvas.clearRect(0, 0, 1512, 512);
+  canvas.strokeStyle = '#e1e1e1';
+  canvas.fillStyle = 'cadetblue';
+
   cells.forEach((row, x) => {
     row.forEach((cell, y) => {
       canvas.beginPath();
@@ -148,6 +151,11 @@ function draw() {
       }
     });
   });
+
+  canvas.fillStyle = 'red';
+  canvas.beginPath();
+  canvas.rect(player[0] * 8, player[1] * 8, 8, 8);
+  canvas.fill();
 }
 
 init();
