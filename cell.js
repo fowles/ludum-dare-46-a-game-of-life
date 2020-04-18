@@ -58,7 +58,6 @@ class Cell {
 
   update() {
     switch (this.type) {
-<<<<<<< HEAD
       case CellType.NORMAL:{
           const count = this.lastRoundNeighborCount;
           this.on = (count == 3 || count == 2 && this.on);
@@ -73,13 +72,6 @@ class Cell {
       case CellType.PLAYER: {
         this.on = true;
       } break;
-=======
-      case CellType.NORMAL: {
-        const count = this.lastRoundNeighborCount;
-        this.on = (count == 3 || count == 2 && this.on);
-      } break;
-      case CellType.PLAYER:
->>>>>>> 5aa5b46... End location. doesn't do anything yet.
       case CellType.WALL:
         this.on = true;
         break;
