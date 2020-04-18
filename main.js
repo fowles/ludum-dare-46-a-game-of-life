@@ -1,66 +1,3 @@
-const level1 = new Level([
-  '**************************************************',
-  '*EE                                              *',
-  '*EE                                              *',
-  '**************************************           *',
-  '*                        .           *           *',
-  '*                      . .           *           *',
-  '*            ..      ..            .A*           *',
-  '*           .   .    ..            .A*           *',
-  '*A.        .     .   ..              *           *',
-  '*A.        .   . ..    . .           *           *',
-  '*          .     .       .           *           *',
-  '*           .   .                    *           *',
-  '*            ..                      *           *',
-  '*                                    *           *',
-  '**********************      **********           *',
-  '*                                    *           *',
-  '*                                    *           *',
-  '*                                    *           *',
-  '*                                    *           *',
-  '*                                    *           *',
-  '*                                    *           *',
-  '*                       .A.          *           *',
-  '*                                                *',
-  '*                                                *',
-  '*                          .A.                   *',
-  '*                                                *',
-  '*                                                *',
-  '*                             .A.                *',
-  '*   P                                            *',
-  '*                                                *',
-  '*                                .A.             *',
-  '*                                                *',
-  '*                                 ****************',
-  '*                                                *',
-  '*                                                *',
-  '*                                                *',
-  '*                                                *',
-  '*                                                *',
-  '*                                                *',
-  '**************************************************',
-]);
-
-const level2 = new Level([
-  '***********************',
-  '*                 *   *',
-  '*  ************** * * *',
-  '*  EE   *         * * *',
-  '*  EE   * ********* * *',
-  '*       * *   *   * * *',
-  '*     AA* * * * * * * *',
-  '*     AA*   * * * * * *',
-  '****  ******* * * * * *',
-  '*           * * * * * *',
-  '*   P       * * * * * *',
-  '*           *   *   * *',
-  '*           ********* *',
-  '*                     *',
-  '***********************',
-]);
-
-
-
 let updateIntervalMs = 40;
 let cellSize = 0;
 let board;
@@ -77,7 +14,7 @@ function draw() {
 }
 
 let playerVelocity = {x: 0, y: 0};
-let currentLevel = level2;
+let currentLevelIndex = 1;
 
 const State = {
   PLAYING: 0,
@@ -105,7 +42,7 @@ function run() {
     case State.PLAYING:
       break;
     case State.RESTARTING:
-      restartGame(currentLevel);
+      restartGame(currentLevelIndex);
       return;
     case State.WON:
       console.log('You won.');
@@ -121,10 +58,10 @@ function run() {
   setTimeout(run, updateIntervalMs);
 }
 
-function restartGame(level) {
-  board = level.makeBoard();
+function restartGame(levelIndex) {
+  board = levels[levelIndex].makeBoard();
   setCellSize();
-  board.warpPlayer(level.getPlayer());
+  board.warpPlayer(levels[levelIndex].getPlayer());
   gameState = State.PLAYING;
   setTimeout(run, 0);
 }
@@ -160,7 +97,7 @@ initKeyListener({
   },
   78: {
     keydown: () => {
-      restartGame(currentLevel);
+      restartGame(currentLevelIndex);
     },
   },
 
@@ -185,6 +122,20 @@ initKeyListener({
       if (newUpdate) updateIntervalMs = newUpdate;
     }
   },
+  // 'l'
+  76: {
+    keydown: () => {
+      const newLevelIndex =
+          window.prompt('Go to level (current ' + currentLevelIndex + ')');
+      if (newLevelIndex !== undefined) {
+        const levelChange = (newLevelIndex != currentLevelIndex);
+        currentLevelIndex = newLevelIndex;
+        if (levelChange) restartGame(currentLevelIndex);
+      }
+    }
+  },
+
+
 });
 
 init();
