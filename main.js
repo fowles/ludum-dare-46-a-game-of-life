@@ -95,7 +95,7 @@ function update() {
    */
   function _countNeighbours(x, y) {
     function _isFilled(x, y) {
-      if (player.x == x && player.y == y) return true;
+      if (player.x == x && player.y == y) return 1;
       return cells[x] && cells[x][y];
     }
 
@@ -124,6 +124,8 @@ function update() {
     });
   });
 
+  // The player tramples the grass.
+  result[player.x][player.y] = 0;
   cells = result;
 
   draw();
