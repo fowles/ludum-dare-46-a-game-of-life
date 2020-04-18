@@ -8,7 +8,7 @@
  */
 var canvas = document.getElementById('c').getContext('2d');
 var cells = [];
-var player = [16, 8];
+let player = {x: 16, y: 8};
 
 /**
  * Initialize game.
@@ -156,15 +156,15 @@ function draw() {
 
   canvas.fillStyle = 'red';
   canvas.beginPath();
-  canvas.rect(player[0] * 8, player[1] * 8, 8, 8);
+  canvas.rect(player.x * 8, player.y * 8, 8, 8);
   canvas.fill();
 }
 
 initKeyListener({
-  37: () => console.log("left"),
-  38: () => console.log("up"),
-  39: () => console.log("right"),
-  40: () => console.log("down"),
+  37: () => --player.x,
+  38: () => --player.y,
+  39: () => ++player.x,
+  40: () => ++player.y,
 });
 init();
 run();
