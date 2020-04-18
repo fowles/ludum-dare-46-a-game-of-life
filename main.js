@@ -2,15 +2,22 @@ let updateIntervalMs = 40;
 let cellSize = 0;
 let board;
 
-const htmlCanvas = document.getElementById('c');
-htmlCanvas.width = window.innerWidth * 0.8;
-htmlCanvas.height = window.innerWidth * 0.8;
+let canvasWidth = window.innerWidth * 0.8;
+let canvasHeight = window.innerHeight * 0.8;
 
+const htmlCanvas = document.getElementById('c');
+htmlCanvas.width = canvasWidth;
+htmlCanvas.height = canvasHeight;
 const canvas = htmlCanvas.getContext('2d');
+
+const htmlOverlay = document.getElementById('overlay')
+htmlOverlay.width = canvasWidth;
+htmlOverlay.height = canvasHeight;
+const overlay = htmlOverlay.getContext('2d');
 
 function draw() {
   canvas.clearRect(0, 0, htmlCanvas.width, htmlCanvas.height);
-  board.draw({canvas: canvas, cellSize: cellSize});
+  board.draw({canvas: canvas, overlay: overlay, cellSize: cellSize});
 }
 
 let playerVelocity = {x: 0, y: 0};
@@ -25,8 +32,13 @@ const State = {
 let gameState = State.RESTARTING;
 
 function setCellSize() {
-  htmlCanvas.width = window.innerWidth * 0.8;
-  htmlCanvas.height = window.innerHeight * 0.8;
+  canvas.width = window.innerWidth * 0.8;
+  canvas.height = window.innerHeight * 0.8;
+  htmlCanvas.width = canvasWidth;
+  htmlCanvas.height = canvasHeight;
+  htmlOverlay.width = canvasWidth;
+  htmlOverlay.height = canvasHeight;
+
   cellSize = Math.floor(Math.min(
       htmlCanvas.width / board.width, htmlCanvas.height / board.height));
   draw();
