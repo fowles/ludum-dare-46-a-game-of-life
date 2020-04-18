@@ -107,9 +107,12 @@ initKeyListener({
     },
     keyup: stop,
   },
+  // 'n'
   78: {
     keydown: () => {
-      restartGame(currentLevelIndex);
+      const wasRunning = (gameState == State.PLAYING);
+      gameState = State.RESTARTING;
+      if (!wasRunning) run();
     },
   },
 
@@ -137,12 +140,17 @@ initKeyListener({
   // 'l'
   76: {
     keydown: () => {
+      console.log("??");
       const newLevelIndex =
           window.prompt('Go to level (current ' + currentLevelIndex + ')');
       if (newLevelIndex !== null) {
         const levelChange = (newLevelIndex != currentLevelIndex);
         currentLevelIndex = newLevelIndex;
-        if (levelChange) restartGame(currentLevelIndex);
+        if (levelChange) {
+          const wasRunning = (gameState == State.PLAYING);
+          gameState = State.RESTARTING;
+          if (!wasRunning) run();
+        }
       }
     }
   },
