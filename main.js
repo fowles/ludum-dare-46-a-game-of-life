@@ -6,7 +6,7 @@
  */
 var canvas = document.getElementById('c').getContext('2d');
 var cells = [];
-var player = [32, 32];
+var player = [16, 8];
 
 /**
  * Initialize game.
@@ -93,6 +93,7 @@ function update() {
    */
   function _countNeighbours(x, y) {
     function _isFilled(x, y) {
+      if (player[0] == x && player[1] == y) return true;
       return cells[x] && cells[x][y];
     }
 
@@ -129,7 +130,6 @@ function update() {
 function run() {
   update()
   setTimeout(run, 20);
-  // window.requestAnimationFrame(update); // Too fast!
 }
 
 /**
