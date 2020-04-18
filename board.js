@@ -23,16 +23,25 @@ class Board {
   update() {
     for (let i = 0; i < this.width; ++i) {
       for (let j = 0; j < this.height; ++j) {
-        if (i == 36 && j == 4) console.log(this.cells[i * this.height + j]);
-        this.cells[i * this.height + j].updateNeighborCounts(i, j);
-        if (i == 36 && j == 4) console.log(this.cells[i * this.height + j]);
+        this._updateNeighborCounts(i, j);
       }
     }
     for (let i = 0; i < this.width; ++i) {
       for (let j = 0; j < this.height; ++j) {
-        if (i == 36 && j == 4) console.log(this.cells[i * this.height + j]);
         this.cells[i * this.height + j].update();
-        if (i == 36 && j == 4) console.log(this.cells[i * this.height + j]);
+      }
+    }
+  }
+
+  _updateNeighborCounts(i, j) {
+    this.cells[i * this.height + j].lastRoundNeighborCount = -this.at(i, j).on;
+    for (let ii = Math.max(0, i - 1); ii <= Math.min(this.width - 1, i + 1);
+         ++ii) {
+      for (let jj = Math.max(0, j - 1); jj <= Math.min(this.height - 1, j + 1);
+           ++jj) {
+        if (this.at(ii, jj).on) {
+          ++this.cells[i * this.height + j].lastRoundNeighborCount;
+        }
       }
     }
   }

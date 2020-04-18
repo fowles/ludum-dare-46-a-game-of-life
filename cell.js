@@ -17,20 +17,6 @@ class Cell {
     }
   }
 
-  updateNeighborCounts(i, j) {
-    function _isFilled(i, j) {
-      const cell = board.at(i, j);
-      return cell && cell.on;
-    }
-
-    this.lastRoundNeighborCount = -_isFilled(i, j);
-    for (let ii = -1; ii <= 1; ++ii) {
-      for (let jj = -1; jj <= 1; ++jj) {
-        if (_isFilled(i - ii, j - jj)) ++this.lastRoundNeighborCount;
-      }
-    }
-  }
-
   update() {
     switch (this.type) {
       case CellType.NORMAL:

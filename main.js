@@ -10,7 +10,7 @@ const board = new Board(boardWidth, boardHeight);
  * @author http://ankr.dk
  */
 let canvas = document.getElementById('c').getContext('2d');
-let cells = [];
+
 let player = {x: 16, y: 8};
 
 /**
@@ -78,7 +78,6 @@ function init() {
   ].forEach((point) => {
     board.set(point[0], point[1] , new Cell(true));
   });
-
 }
 
 function run() {
@@ -103,13 +102,13 @@ initKeyListener({
   39: () => {
     board.setType(player.x, player.y, CellType.NORMAL);
     ++player.x;
-    if (player.x > 63) player.x = 63;
+    if (player.x > boardWidth - 1) player.x = boardWidth - 1;
     board.setType(player.x, player.y, CellType.PLAYER);
   },
   40: () => {
     board.setType(player.x, player.y, CellType.NORMAL);
     ++player.y;
-    if (player.y > 63) player.y = 63;
+    if (player.y > boardHeight - 1) player.y = boardHeight - 1;
     board.setType(player.x, player.y, CellType.PLAYER);
   }
 });
