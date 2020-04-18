@@ -96,15 +96,21 @@ class Board {
     }
 
     let mid = ctx.cellSize / 2
+    let xPos = this.player.x * ctx.cellSize + mid;
+    let yPos = this.player.y * ctx.cellSize + mid;
     let xDir = mid * this.playerDirection.x
     let yDir = mid * this.playerDirection.y
-    if (xDir == 0) xDir = 1
-    if (yDir == 0) yDir = 1
+    if (xDir == 0) {
+      xDir = 4;
+      xPos -= 2;
+    }
+    if (yDir == 0) {
+      yDir = 4;
+      yPos -= 2;
+    }
+    ctx.canvas.fillStyle = 'white';
     ctx.canvas.beginPath();
-    ctx.canvas.rect(
-        this.player.x * ctx.cellSize + mid, //
-        this.player.y * ctx.cellSize + mid, //
-        xDir, yDir);
-    ctx.canvas.stroke();
+    ctx.canvas.rect(xPos, yPos, xDir, yDir);
+    ctx.canvas.fill();
   }
 }
