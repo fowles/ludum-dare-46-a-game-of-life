@@ -38,11 +38,17 @@ class Cell {
 
   update() {
     switch (this.type) {
-      case CellType.NORMAL:
+      case CellType.NORMAL: {
         const count = this.lastRoundNeighborCount;
         this.on = (count == 3 || count == 2 && this.on);
-        break;
-      case CellType.PLAYER:
+      } break;
+      case CellType.PLAYER: {
+        this.on = true;
+        const count = this.lastRoundNeighborCount;
+        if (count == 3 || count == 2) {
+          gameState = State.LOST;
+        }
+      } break;
       case CellType.WALL:
         this.on = true;
         break;

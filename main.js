@@ -1,15 +1,12 @@
-const updateIntervalMs = 20;
+const updateIntervalMs = 100;
 let cellSize = 0;
 let board;
-const htmlCanvas = document.getElementById('c');
-const canvas = htmlCanvas.getContext('2d');
 
+const htmlCanvas = document.getElementById('c');
 htmlCanvas.width = window.innerWidth * 0.8;
 htmlCanvas.height = window.innerWidth * 0.8;
 
-function clamp(num, min, max) {
-  return num <= min ? min : num >= max ? max : num;
-}
+const canvas = htmlCanvas.getContext('2d');
 
 function draw() {
   canvas.clearRect(0, 0, htmlCanvas.width, htmlCanvas.height);
@@ -18,6 +15,13 @@ function draw() {
 
 let player = {x: 16, y: 8};
 let playerVelocity = {x: 0, y: 0};
+
+const State = {
+  PLAYING: 0,
+  LOST: 1,
+  WON: 2,
+};
+let gameState = State.PLAYING;
 
 function setCellSize() {
   htmlCanvas.width = window.innerWidth * 0.8;
@@ -54,22 +58,24 @@ function init() {
     '                                                  ',
     '                                                  ',
     '                                                  ',
+    '        *                                         ',
+    '       * *                                        ',
+    '      *...*                                       ',
+    '       * *                                        ',
+    '        *      ************                       ',
+    '               WWWWWWWWWWWW                       ',
+    '                                                  ',
+    '               WWWWWWWWWWWW                       ',
     '                                                  ',
     '                                                  ',
     '                                                  ',
     '                                                  ',
-    '                                                  ',
-    '                                                  ',
-    '                                                  ',
-    '                                                  ',
-    '                                                  ',
-    '                                                  ',
-    '                                                  ',
-    '                                                  ',
-    '                                                  ',
+    '               ************                       ',
+    '        **********                                ',
+    '        WWWWWWWWWW                                ',
     '            P                                     ',
-    '                                                  ',
-    '                                                  ',
+    '        WWWWWWWWWW                                ',
+    '        **********                                ',
     '                                                  ',
     '                                                  ',
   ]);
@@ -78,7 +84,22 @@ function init() {
   player = level.getPlayer();
 }
 
+function clamp(num, min, max) {
+  return num <= min ? min : num >= max ? max : num;
+}
+
 function run() {
+  switch (gameState) {
+    case State.PLAYING:
+      break;
+    case State.WON:
+      console.log('You won.');
+      return;
+    case State.LOST:
+      console.log('You lost.');
+      return;
+  }
+
   board.update();
 
   // Check player new position after the board has been updated but before
@@ -124,11 +145,9 @@ initKeyListener({
   },
   40: {
     keydown: () => {
-      console.log("x");
       playerVelocity = {x: 0, y: 1};
     },
     keyup: () => {
-      console.log("y");
       playerVelocity = {x: 0, y: 0};
     },
   },
