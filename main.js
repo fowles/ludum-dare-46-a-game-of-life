@@ -20,8 +20,9 @@ const State = {
   PLAYING: 0,
   LOST: 1,
   WON: 2,
+  RESTARTING: 3,
 };
-let gameState = State.PLAYING;
+let gameState = State.RESTARTING;
 
 function setCellSize() {
   htmlCanvas.width = window.innerWidth * 0.8;
@@ -33,7 +34,47 @@ function setCellSize() {
 
 function init() {
   window.addEventListener('resize', setCellSize);
+  gameState = State.RESTARTING;
+}
 
+function clamp(num, min, max) {
+  return num <= min ? min : num >= max ? max : num;
+}
+
+function run() {
+  switch (gameState) {
+    case State.PLAYING:
+      break;
+    case State.RESTARTING:
+      restartGame();
+      return;
+    case State.WON:
+      console.log('You won.');
+      return;
+    case State.LOST:
+      console.log('You lost.');
+      return;
+  }
+
+  board.update();
+
+  // Check player new position after the board has been updated but before
+  // drawing.
+  const newPos = {
+    x: clamp(player.x + playerVelocity.x, 0, board.width- 1),
+    y: clamp(player.y + playerVelocity.y, 0, board.height - 1)
+  };
+  if (board.at(newPos.x, newPos.y).type == CellType.NORMAL) {
+    board.set(player.x, player.y, new Cell(false, CellType.NORMAL));
+    player = newPos;
+    board.set(player.x, player.y, new Cell(true, CellType.PLAYER));
+  }
+
+  draw();
+  setTimeout(run, updateIntervalMs);
+}
+
+function restartGame() {
   const level = new Level([
     '                                          *       ',
     '                         .                *       ',
@@ -82,40 +123,8 @@ function init() {
   board = level.makeBoard();
   setCellSize();
   player = level.getPlayer();
-}
-
-function clamp(num, min, max) {
-  return num <= min ? min : num >= max ? max : num;
-}
-
-function run() {
-  switch (gameState) {
-    case State.PLAYING:
-      break;
-    case State.WON:
-      console.log('You won.');
-      return;
-    case State.LOST:
-      console.log('You lost.');
-      return;
-  }
-
-  board.update();
-
-  // Check player new position after the board has been updated but before
-  // drawing.
-  const newPos = {
-    x: clamp(player.x + playerVelocity.x, 0, board.width- 1),
-    y: clamp(player.y + playerVelocity.y, 0, board.height - 1)
-  };
-  if (board.at(newPos.x, newPos.y).type == CellType.NORMAL) {
-    board.set(player.x, player.y, new Cell(false, CellType.NORMAL));
-    player = newPos;
-    board.set(player.x, player.y, new Cell(true, CellType.PLAYER));
-  }
-
-  draw();
-  setTimeout(run, updateIntervalMs);
+  gameState = State.PLAYING;
+  setTimeout(run, 0);
 }
 
 initKeyListener({
@@ -150,6 +159,9 @@ initKeyListener({
     keyup: () => {
       playerVelocity = {x: 0, y: 0};
     },
+  },
+  78: {
+    keydown: restartGame,
   },
 });
 
