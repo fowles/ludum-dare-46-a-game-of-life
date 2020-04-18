@@ -1,4 +1,4 @@
-const updateIntervalMs = 100;
+const updateIntervalMs = 20;
 let cellSize = 0;
 let board;
 
@@ -64,7 +64,7 @@ function run() {
     x: clamp(player.x + playerVelocity.x, 0, board.width- 1),
     y: clamp(player.y + playerVelocity.y, 0, board.height - 1)
   };
-  if (board.at(newPos.x, newPos.y).type == CellType.NORMAL) {
+  if (!blocksPlayer(board.at(newPos.x, newPos.y).type)) {
     board.set(player.x, player.y, new Cell(false, CellType.NORMAL));
     player = newPos;
     board.set(player.x, player.y, new Cell(true, CellType.PLAYER));
@@ -94,6 +94,25 @@ function restartGame() {
     '                                                  ',
     '                                                  ',
     '                                                  ',
+    '                                                  ',
+    '                                                  ',
+    '                                                  ',
+    '                                                  ',
+    '                                                  ',
+    '                                                  ',
+    '                                                  ',
+    '                                                  ',
+    '                                                  ',
+    '                                                  ',
+    '                                                  ',
+    '                                                  ',
+    '                                                  ',
+    '                                                  ',
+    '                                                  ',
+    '                                                  ',
+    '                                                  ',
+    '                                                  ',
+    '       E                                          ',
     '                                                  ',
     '                                                  ',
     '                                                  ',

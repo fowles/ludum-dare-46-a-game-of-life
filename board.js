@@ -52,12 +52,11 @@ class Board {
     for (let i = 0; i < this.width; ++i) {
       for (let j = 0; j < this.height; ++j) {
         const cell = this.at(i, j);
-
         ctx.canvas.fillStyle = getFill(cell.type);
         ctx.canvas.beginPath();
         ctx.canvas.rect(
             i * ctx.cellSize, j * ctx.cellSize, ctx.cellSize, ctx.cellSize);
-        if (cell.on || cell.type == CellType.DITCH) {
+        if (cell.on || cell.type != CellType.NORMAL) {
           ctx.canvas.fill();
         } else {
           ctx.canvas.stroke();

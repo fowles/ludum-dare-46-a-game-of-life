@@ -14,6 +14,9 @@ class Level {
           case 'W':
             board.set(i, j, new Cell(true, CellType.WALL));
             break;
+          case 'E':
+            board.set(i, j, new Cell(true, CellType.END));
+            break;
           case '*':
             board.set(i, j, new Cell(true, CellType.DITCH));
             break;
