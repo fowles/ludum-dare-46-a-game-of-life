@@ -1,3 +1,46 @@
+const level1 = new Level([
+  '**************************************************',
+  '*EE                                              *',
+  '*EE                                              *',
+  '**************************************           *',
+  '*                        .           *           *',
+  '*                      . .           *           *',
+  '*            ..      ..            .A*           *',
+  '*           .   .    ..            .A*           *',
+  '*A.        .     .   ..              *           *',
+  '*A.        .   . ..    . .           *           *',
+  '*          .     .       .           *           *',
+  '*           .   .                    *           *',
+  '*            ..                      *           *',
+  '*                                    *           *',
+  '**********************      **********           *',
+  '*                                    *           *',
+  '*                                    *           *',
+  '*                                    *           *',
+  '*                                    *           *',
+  '*                                    *           *',
+  '*                                    *           *',
+  '*                       .A.          *           *',
+  '*                                                *',
+  '*                                                *',
+  '*                          .A.                   *',
+  '*                                                *',
+  '*                                                *',
+  '*                             .A.                *',
+  '*   P                                            *',
+  '*                                                *',
+  '*                                .A.             *',
+  '*                                                *',
+  '*                                 ****************',
+  '*                                                *',
+  '*                                                *',
+  '*                                                *',
+  '*                                                *',
+  '*                                                *',
+  '*                                                *',
+  '**************************************************',
+]);
+
 const updateIntervalMs = 20;
 let cellSize = 0;
 let board;
@@ -14,6 +57,7 @@ function draw() {
 }
 
 let playerVelocity = {x: 0, y: 0};
+let currentLevel = level1;
 
 const State = {
   PLAYING: 0,
@@ -41,7 +85,7 @@ function run() {
     case State.PLAYING:
       break;
     case State.RESTARTING:
-      restartGame();
+      restartGame(currentLevel);
       return;
     case State.WON:
       console.log('You won.');
@@ -57,71 +101,7 @@ function run() {
   setTimeout(run, updateIntervalMs);
 }
 
-function restartGame() {
-  const level = new Level([
-    '                                          *       ',
-    '                         .                *       ',
-    '                       . .                *       ',
-    '             ..      ..            .A     *       ',
-    '            .   .    ..            .A     *       ',
-    ' A.        .     .   ..                   *       ',
-    ' A.        .   . ..    . .                *       ',
-    '           .     .       .                *       ',
-    '            .   .                         *       ',
-    '             ..                           *       ',
-    '                                          *       ',
-    '                                          *       ',
-    '                                          *       ',
-    '                                          *       ',
-    '*********************               *******       ',
-    '                                                  ',
-    '                                                  ',
-    '                                                  ',
-    '                                                  ',
-    '                                                  ',
-    '                                                  ',
-    '                                                  ',
-    '                                                  ',
-    '                                                  ',
-    '                                                  ',
-    '                                                  ',
-    '                                                  ',
-    '                                                  ',
-    '                                                  ',
-    '                                                  ',
-    '                                                  ',
-    '                                                  ',
-    '                                                  ',
-    '                                                  ',
-    '                                                  ',
-    '                                                  ',
-    '       E                                          ',
-    '                                                  ',
-    '                                                  ',
-    '                                                  ',
-    '                                                  ',
-    '                                                  ',
-    '        *                                         ',
-    '       * *                                        ',
-    '      *...*                                       ',
-    '       * *                                        ',
-    '        *      ************                       ',
-    '               WWWWWWWWWWWW                       ',
-    '                                                  ',
-    '               WWWWWWWWWWWW                       ',
-    '                                                  ',
-    '                                                  ',
-    '                                                  ',
-    '                                                  ',
-    '               ************                       ',
-    '        **********                                ',
-    '        WWWWWWWWWW                                ',
-    '            P                                     ',
-    '        WWWWWWWWWW                                ',
-    '        **********                                ',
-    '                                                  ',
-    '                                                  ',
-  ]);
+function restartGame(level) {
   board = level.makeBoard();
   setCellSize();
   board.warpPlayer(level.getPlayer());
@@ -159,7 +139,9 @@ initKeyListener({
     keyup: stop,
   },
   78: {
-    keydown: restartGame,
+    keydown: () => {
+      restartGame(currentLevel);
+    },
   },
 });
 
