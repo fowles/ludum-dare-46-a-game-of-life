@@ -82,15 +82,8 @@ class Board {
       for (let j = 0; j < this.height; ++j) {
         ctx.canvas.strokeStyle = '#e1e1e1';
         const cell = this.at(i, j);
-        ctx.canvas.fillStyle = getFill(cell.type);
-        ctx.canvas.beginPath();
-        ctx.canvas.rect(
-            i * ctx.cellSize, j * ctx.cellSize, ctx.cellSize, ctx.cellSize);
-        if (cell.on || cell.type != CellType.NORMAL) {
-          ctx.canvas.fill();
-        } else {
-          ctx.canvas.stroke();
-        }
+        cell.draw(ctx, i, j);
+
         if (cell.type == CellType.LOST) {
           let progress = 0;
           const animate = () => {

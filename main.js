@@ -120,9 +120,7 @@ initKeyListener({
     keydown: () => {
       const wasRunning = (gameState == State.PLAYING);
       if (gameState == State.WON) {
-        console.log(currentLevelIndex);
         currentLevelIndex = currentLevelIndex + 1;
-        console.log(currentLevelIndex);
       }
       gameState = State.RESTARTING;
       if (!isRunning) run();
