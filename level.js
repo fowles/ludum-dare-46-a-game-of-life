@@ -213,7 +213,9 @@ const levels = [
         '****************************',
       ],
       [
-        new Text(5.1, 3.3, 'In this "Game of Life"'),
+        new Text(15.1, 3.3, 'In this "Game of Life"'),
+        new Text(15.1, 4.3, '- arrow keys move'),
+        new Text(15.1, 5.3, '- shift + arrow moves one square'),
         new Text(5.1, 7.3, 'Exit - Get to here.'),
       ]),
   new Level(
@@ -235,6 +237,8 @@ const levels = [
       ],
       [
         new Text(15.1, 3.3, 'In this "Game of Life"'),
+        new Text(15.1, 4.3, '- arrow keys move'),
+        new Text(15.1, 5.3, '- shift + arrow moves one square'),
         new Text(5.1, 7.3, 'Alive cells.'),
         new Text(5.1, 11.3, 'Exit - Get to here.'),
       ]),
@@ -261,6 +265,8 @@ const levels = [
       ],
       [
         new Text(15.1, 3.3, 'In this "Game of Life"'),
+        new Text(15.1, 4.3, '- arrow keys move'),
+        new Text(15.1, 5.3, '- shift + arrow moves one square'),
         new Text(5.1, 7.3, 'Alive cells.'),
         new Text(5.1, 11.3, 'Ditch - Always dead.'),
         new Text(5.1, 15.3, 'Exit - Get to here.'),
@@ -292,6 +298,8 @@ const levels = [
       ],
       [
         new Text(15.1, 3.3, 'In this "Game of Life"'),
+        new Text(15.1, 4.3, '- arrow keys move'),
+        new Text(15.1, 5.3, '- shift + arrow moves one square'),
         new Text(5.1, 7.3, 'Alive cells.'),
         new Text(5.1, 11.3, 'Ditch - Always dead.'),
         new Text(5.1, 15.3, 'Wall - Always alive.'),
@@ -328,6 +336,8 @@ const levels = [
       ],
       [
         new Text(15.1, 3.3, 'In this "Game of Life"'),
+        new Text(15.1, 4.3, '- arrow keys move'),
+        new Text(15.1, 5.3, '- shift + arrow moves one square'),
         new Text(5.1, 7.3, 'Alive cells.'),
         new Text(5.1, 11.3, 'Ditch - Always dead.'),
         new Text(5.1, 15.3, 'Wall - Always alive.'),
