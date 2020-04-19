@@ -17,11 +17,15 @@ const overlay = htmlOverlay.getContext('2d');
 
 function draw() {
   canvas.clearRect(0, 0, htmlCanvas.width, htmlCanvas.height);
-  board.draw({canvas: canvas, overlay: overlay, cellSize: cellSize});
+  const ctx = {canvas: canvas, overlay: overlay, cellSize: cellSize};
+  board.draw(ctx);
+  for (const text of levels[currentLevelIndex].textArray) {
+    text.draw(ctx);
+  }
 }
 
 let playerVelocity = {x: 0, y: 0};
-let currentLevelIndex = 3;
+let currentLevelIndex = 0;
 
 const State = {
   PLAYING: 0,
@@ -72,6 +76,7 @@ function run() {
 }
 
 function restartGame(levelIndex) {
+  console.log(levelIndex);
   const level = levels[levelIndex];
   board = level.makeBoard();
   setCellSize();
@@ -116,7 +121,9 @@ initKeyListener({
     keydown: () => {
       const wasRunning = (gameState == State.PLAYING);
       if (gameState == State.WON) {
+        console.log(currentLevelIndex);
         currentLevelIndex = currentLevelIndex + 1;
+        console.log(currentLevelIndex);
       }
       gameState = State.RESTARTING;
       if (!isRunning) run();
@@ -151,7 +158,7 @@ initKeyListener({
           window.prompt('Go to level (current ' + currentLevelIndex + ')');
       if (newLevelIndex !== null) {
         const levelChange = (newLevelIndex != currentLevelIndex);
-        currentLevelIndex = newLevelIndex;
+        currentLevelIndex = parseInt(newLevelIndex);
         if (levelChange) {
           gameState = State.RESTARTING;
           if (!isRunning) run();

@@ -1,7 +1,25 @@
+class Text {
+  constructor(x, y, text) {
+    this.x = x;
+    this.y = y;
+    this.text = text;
+  }
+
+  draw(ctx) {
+    const fontSize = 30;
+    ctx.canvas.font = fontSize.toString() + 'px Arial';
+    ctx.canvas.textAlign = 'left';
+    ctx.canvas.fillStyle = 'black';
+    ctx.canvas.fillText(
+        this.text, this.x * ctx.cellSize, this.y * ctx.cellSize);
+  }
+}
+
 class Level {
-  constructor(map, updateInterval = 40) {
+  constructor(map, textArray = [], updateInterval = 40) {
     this.map = map;
     this.player = {x: -1, y: -1};
+    this.textArray = textArray;
     this.updateInterval = updateInterval;
   }
 
@@ -61,6 +79,42 @@ const shapes = [
 ];
 
 const levels = [
+  new Level(
+      [
+        '**************************************',
+        '*                                    *',
+        '* **                                 *',
+        '* **                                 *',
+        '*                                    *',
+        '*                                    *',
+        '* WW                                 *',
+        '* WW                                 *',
+        '*                                    *',
+        '*                                    *',
+        '* ..                                 *',
+        '* ..                                 *',
+        '*                                    *',
+        '*                                    *',
+        '* EE                                 *',
+        '* EE                                 *',
+        '*                                    *',
+        '*                                    *',
+        '* AA                                 *',
+        '* AA                                 *',
+        '*                                    *',
+        '**********************************   *',
+        '*                                    *',
+        '*  P                                 *',
+        '*                                    *',
+        '**************************************',
+      ],
+      [
+        new Text(5, 3.3, 'Ditch - Always dead.'),
+        new Text(5, 7.3, 'Wall - Always alive.'),
+        new Text(5, 11.3, 'Alive cells.'),
+        new Text(5, 15.3, 'Exit - Get to here.'),
+        new Text(5, 19.3, 'Keep it alive.'),
+      ]),
   new Level([
     '**************************************************',
     '*EE                                              *',
@@ -169,7 +223,7 @@ const levels = [
         '*P             E*',
         '*****************',
       ],
-      300),
+      [], 300),
   new Level([
     '***************************************************************',
     '*                                                             *',
