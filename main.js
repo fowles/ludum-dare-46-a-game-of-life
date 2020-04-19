@@ -76,7 +76,6 @@ function run() {
 }
 
 function restartGame(levelIndex) {
-  console.log(levelIndex);
   const level = levels[levelIndex];
   board = level.makeBoard();
   setCellSize();
