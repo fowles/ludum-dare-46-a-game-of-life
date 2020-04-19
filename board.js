@@ -78,10 +78,20 @@ class Board {
   }
 
   draw(ctx) {
+    // Draw dead normal cells first.
     for (let i = 0; i < this.width; ++i) {
       for (let j = 0; j < this.height; ++j) {
-        ctx.canvas.strokeStyle = '#e1e1e1';
         const cell = this.at(i, j);
+        if (!cell.on && cell.type == CellType.NORMAL) {
+          cell.draw(ctx, i, j);
+        }
+      }
+    }
+
+    for (let i = 0; i < this.width; ++i) {
+      for (let j = 0; j < this.height; ++j) {
+        const cell = this.at(i, j);
+        if (!cell.on && cell.type == CellType.NORMAL) continue;
         cell.draw(ctx, i, j);
 
         if (cell.type == CellType.LOST) {

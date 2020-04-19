@@ -87,15 +87,14 @@ class Cell {
   draw(ctx, i, j) {
     let fillStyle = undefined;
     let strokeStyle = undefined;
+    if (this.mustStayAlive) strokeStyle = 'black';
+
     switch (this.type) {
       case CellType.NORMAL:
         if (this.on) {
           fillStyle = 'cadetblue';
-          if (this.mustStayAlive) {
-            strokeStyle = 'black';
-          }
         } else {
-          strokeStyle = 'white';
+          strokeStyle = '#e1e1e1';
         }
         break;
       case CellType.PLAYER:
