@@ -121,14 +121,25 @@ class Board {
         switch (gameState) {
           case State.WON:
             ctx.canvas.fillText(
-                'You kept it alive in level ' + currentLevelIndex +
-                    '. Press \'n\' to begin the next level.',
+                'In this "Game of Life",',  //
+                htmlCanvas.width / 2, htmlCanvas.height / 2 - 30);
+            ctx.canvas.fillText(
+                'you kept it alive in level ' + currentLevelIndex + '.',  //
                 htmlCanvas.width / 2, htmlCanvas.height / 2);
+            ctx.canvas.fillText(
+                'Press \'n\' to begin the next level.',  //
+                htmlCanvas.width / 2, htmlCanvas.height / 2 + 30);
             break;
           case State.LOST:
             ctx.canvas.fillText(
-                'You didn\'t keep it alive. Press \'n\' to retry.',
+                'In this "Game of Life",',  //
+                htmlCanvas.width / 2, htmlCanvas.height / 2 - 30);
+            ctx.canvas.fillText(
+                'you failed to keep it alive.', //
                 htmlCanvas.width / 2, htmlCanvas.height / 2);
+            ctx.canvas.fillText(
+                'Press \'n\' to retry.',  //
+                htmlCanvas.width / 2, htmlCanvas.height / 2 + 30);
             break;
         }
       }

@@ -25,7 +25,12 @@ function draw() {
 }
 
 let playerVelocity = {x: 0, y: 0};
+let singleStep = false;
 let currentLevelIndex = 0;
+
+function stopPlayer() {
+  playerVelocity = {x: 0, y: 0};
+}
 
 const State = {
   PLAYING: 0,
@@ -58,7 +63,8 @@ function run() {
   switch (gameState) {
     case State.PLAYING:
       board.update();
-      board.movePlayer(playerVelocity)
+      board.movePlayer(playerVelocity);
+      if (singleStep) stopPlayer();
       draw();
       setTimeout(run, updateIntervalMs);
       return;
@@ -86,34 +92,34 @@ function restartGame(levelIndex) {
   setTimeout(run, 0);
 }
 
-function stop() {
-  playerVelocity = {x: 0, y: 0};
-};
-
 initKeyListener({
   37: {
-    keydown: () => {
+    keydown: (modified) => {
       playerVelocity = {x: -1, y: 0};
+      singleStep = modified;
     },
-    keyup: stop,
+    keyup: stopPlayer,
   },
   38: {
-    keydown: () => {
+    keydown: (modified) => {
       playerVelocity = {x: 0, y: -1};
+      singleStep = modified;
     },
-    keyup: stop,
+    keyup: stopPlayer,
   },
   39: {
-    keydown: () => {
+    keydown: (modified) => {
       playerVelocity = {x: 1, y: 0};
+      singleStep = modified;
     },
-    keyup: stop,
+    keyup: stopPlayer,
   },
   40: {
-    keydown: () => {
+    keydown: (modified) => {
       playerVelocity = {x: 0, y: 1};
+      singleStep = modified;
     },
-    keyup: stop,
+    keyup: stopPlayer,
   },
   // 'n'
   78: {

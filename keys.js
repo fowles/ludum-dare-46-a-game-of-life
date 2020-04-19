@@ -4,7 +4,8 @@ function initKeyListener(keytable) {
     if (mapForKey === undefined) return;
     const f = mapForKey.keydown;
     if (f !== undefined) {
-      f();
+      if (event.shiftKey && event.repeat) return;
+      f(event.shiftKey);
       event.preventDefault();
     }
   });
