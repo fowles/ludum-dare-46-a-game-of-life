@@ -93,62 +93,52 @@ function restartGame(levelIndex) {
   setTimeout(run, 0);
 }
 
-let keyUpArrow = (modified) => {
-  playerVelocity = {x: 0, y: -1};
-  singleStep = modified;
-};
-let keyDownArrow = (modified) => {
-  playerVelocity = {x: 0, y: 1};
-  singleStep = modified;
-};
-let keyReleaseVertical = () => {
-  playerVelocity.y = 0
-};
-
-let keyLeftArrow = (modified) => {
-  playerVelocity = {x: -1, y: 0};
-  singleStep = modified;
-};
-let keyRightArrow = (modified) => {
-  playerVelocity = {x: 1, y: 0};
-  singleStep = modified;
-};
-let keyReleaseHorizontal = () => {
-  playerVelocity.x = 0
+function movementKey(x, y) {
+  return (press) => {
+    return (modifier) => {
+      if (press) {
+        playerVelocity = {x: x, y: y};
+        singleStep = modifier;
+      } else {
+        if (playerVelocity.x == x) playerVelocity.x = 0;
+        if (playerVelocity.y == y) playerVelocity.y = 0;
+      }
+    };
+  };
 };
 
 initKeyListener({
   37: { // arrow left
-    keydown: keyLeftArrow,
-    keyup: keyReleaseHorizontal,
+    keydown: movementKey(-1, 0)(true),
+    keyup: movementKey(-1, 0)(false),
   },
   65: { // 'a'
-    keydown: keyLeftArrow,
-    keyup: keyReleaseHorizontal,
+    keydown: movementKey(-1, 0)(true),
+    keyup: movementKey(-1, 0)(false),
   },
   38: { // arrow up
-    keydown: keyUpArrow,
-    keyup: keyReleaseVertical,
+    keydown: movementKey(0, -1)(true),
+    keyup: movementKey(0, -1)(false),
   },
   87: { // 'w'
-    keydown: keyUpArrow,
-    keyup: keyReleaseVertical,
+    keydown: movementKey(0, -1)(true),
+    keyup: movementKey(0, -1)(false),
   },
   39: {  // arrow right
-    keydown: keyRightArrow,
-    keyup: keyReleaseHorizontal,
+    keydown: movementKey(1, 0)(true),
+    keyup: movementKey(1, 0)(false),
   },
   68: {  // 'd'
-    keydown: keyRightArrow,
-    keyup: keyReleaseHorizontal,
+    keydown: movementKey(1, 0)(true),
+    keyup: movementKey(1, 0)(false),
   },
   40: { // arrow down
-    keydown: keyDownArrow,
-    keyup: keyReleaseVertical,
+    keydown: movementKey(0, 1)(true),
+    keyup: movementKey(0, 1)(false),
   },
   83: { // arrow down
-    keydown: keyDownArrow,
-    keyup: keyReleaseVertical,
+    keydown: movementKey(0, 1)(true),
+    keyup: movementKey(0, 1)(false),
   },
   // 'n'
   78: {
