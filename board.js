@@ -11,7 +11,7 @@ class Board {
       this.cells[i] = new Cell();
     }
     this.player = {x: 16, y: 8};
-    this.playerDirection = {x: 1, y: 0};
+    this.playerDirection = {x: 0, y: 0};
   }
 
   warpPlayer(pos) {
