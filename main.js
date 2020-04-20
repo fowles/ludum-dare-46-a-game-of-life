@@ -94,52 +94,27 @@ function restartGame(levelIndex) {
 }
 
 function movementKey(x, y) {
-  return (press) => {
-    return (modifier) => {
-      if (press) {
-        playerVelocity = {x: x, y: y};
-        singleStep = modifier;
-      } else {
-        if (playerVelocity.x == x) playerVelocity.x = 0;
-        if (playerVelocity.y == y) playerVelocity.y = 0;
-      }
-    };
+  return {
+    keydown: (modifier) => {
+      playerVelocity = {x: x, y: y};
+      singleStep = modifier;
+    },
+    keyup: () => {
+      if (playerVelocity.x == x) playerVelocity.x = 0;
+      if (playerVelocity.y == y) playerVelocity.y = 0;
+    },
   };
 };
 
 initKeyListener({
-  37: { // arrow left
-    keydown: movementKey(-1, 0)(true),
-    keyup: movementKey(-1, 0)(false),
-  },
-  65: { // 'a'
-    keydown: movementKey(-1, 0)(true),
-    keyup: movementKey(-1, 0)(false),
-  },
-  38: { // arrow up
-    keydown: movementKey(0, -1)(true),
-    keyup: movementKey(0, -1)(false),
-  },
-  87: { // 'w'
-    keydown: movementKey(0, -1)(true),
-    keyup: movementKey(0, -1)(false),
-  },
-  39: {  // arrow right
-    keydown: movementKey(1, 0)(true),
-    keyup: movementKey(1, 0)(false),
-  },
-  68: {  // 'd'
-    keydown: movementKey(1, 0)(true),
-    keyup: movementKey(1, 0)(false),
-  },
-  40: { // arrow down
-    keydown: movementKey(0, 1)(true),
-    keyup: movementKey(0, 1)(false),
-  },
-  83: { // arrow down
-    keydown: movementKey(0, 1)(true),
-    keyup: movementKey(0, 1)(false),
-  },
+  37: movementKey(-1, 0),  // arrow left
+  65: movementKey(-1, 0),  // 'a'
+  38: movementKey(0, -1),  // arrow up
+  87: movementKey(0, -1),  // 'w'
+  39: movementKey(1, 0),   // arrow right
+  68: movementKey(1, 0),   // 'd'
+  40: movementKey(0, 1),   // arrow down
+  83: movementKey(0, 1),   // 's'
   // 'n'
   78: {
     keydown: () => {
