@@ -92,7 +92,7 @@ class Cell {
     switch (this.type) {
       case CellType.NORMAL:
         if (this.on) {
-          fillStyle = 'cadetblue';
+          fillStyle = '#5f9ea0';
         } else {
           strokeStyle = '#e1e1e1';
         }
@@ -101,7 +101,7 @@ class Cell {
         fillStyle = 'red';
         break;
       case CellType.WALL:
-        fillStyle = 'brown';
+        fillStyle = '#dd8627';
         break;
       case CellType.DITCH:
         fillStyle = '#333';
