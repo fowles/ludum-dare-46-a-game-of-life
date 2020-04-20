@@ -117,25 +117,31 @@ class Board {
         let fontSize = 30
         ctx.canvas.font = fontSize.toString() + 'px Arial';
         ctx.canvas.textAlign = 'center';
-        ctx.canvas.fillStyle = 'black';
+        ctx.canvas.fillStyle = 'rgba(255, 255, 255, 0.02)';
         switch (gameState) {
           case State.WON:
+            ctx.canvas.beginPath();
+            ctx.canvas.rect(
+                htmlCanvas.width * 0.25, htmlCanvas.height * 0.4,
+                htmlCanvas.width * 0.5, htmlCanvas.height * 0.2);
+            ctx.canvas.fill();
+            ctx.canvas.fillStyle = 'black';
             ctx.canvas.fillText(
-                'In this "Game of Life",',  //
-                htmlCanvas.width / 2, htmlCanvas.height / 2 - 30);
-            ctx.canvas.fillText(
-                'you kept it alive in level ' + currentLevelIndex + '.',  //
+                'You kept it alive in level ' + currentLevelIndex + '.',  //
                 htmlCanvas.width / 2, htmlCanvas.height / 2);
             ctx.canvas.fillText(
                 'Press \'n\' to begin the next level.',  //
                 htmlCanvas.width / 2, htmlCanvas.height / 2 + 30);
             break;
           case State.LOST:
+            ctx.canvas.beginPath();
+            ctx.canvas.rect(
+                htmlCanvas.width * 0.25, htmlCanvas.height * 0.4,
+                htmlCanvas.width * 0.5, htmlCanvas.height * 0.2);
+            ctx.canvas.fill();
+            ctx.canvas.fillStyle = 'black';
             ctx.canvas.fillText(
-                'In this "Game of Life",',  //
-                htmlCanvas.width / 2, htmlCanvas.height / 2 - 30);
-            ctx.canvas.fillText(
-                'you failed to keep it alive.', //
+                'You failed to keep it alive.',  //
                 htmlCanvas.width / 2, htmlCanvas.height / 2);
             ctx.canvas.fillText(
                 'Press \'n\' to retry.',  //

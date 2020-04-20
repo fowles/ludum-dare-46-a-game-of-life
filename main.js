@@ -2,8 +2,8 @@ let updateIntervalMs = 40;
 let cellSize = 0;
 let board;
 
-let canvasWidth = window.innerWidth * 0.8;
-let canvasHeight = window.innerHeight * 0.8;
+let canvasWidth = window.innerWidth;
+let canvasHeight = window.innerHeight - 100;
 
 const htmlCanvas = document.getElementById('c');
 htmlCanvas.width = canvasWidth;
@@ -26,7 +26,7 @@ function draw() {
 
 let playerVelocity = {x: 0, y: 0};
 let singleStep = false;
-let currentLevelIndex = 0;
+let currentLevelIndex = 1;
 
 function stopPlayer() {
   playerVelocity = {x: 0, y: 0};
@@ -40,21 +40,26 @@ const State = {
 };
 let gameState = State.RESTARTING;
 
-function setCellSize() {
-  canvas.width = window.innerWidth * 0.8;
-  canvas.height = window.innerHeight * 0.8;
-  htmlCanvas.width = canvasWidth;
-  htmlCanvas.height = canvasHeight;
-  htmlOverlay.width = canvasWidth;
-  htmlOverlay.height = canvasHeight;
+function updateCanvas() {
+  const canvasWidth = window.innerWidth;
+  const canvasHeight = window.innerHeight - 100;
 
-  cellSize = Math.floor(Math.min(
-      htmlCanvas.width / board.width, htmlCanvas.height / board.height));
+  const _update = (c, cHtml) => {
+    c.width = canvasWidth;
+    c.height = canvasHeight;
+    cHtml.width = canvasWidth;
+    cHtml.height = canvasHeight;
+  }
+  _update(canvas, htmlCanvas);
+  _update(overlay, htmlOverlay);
+
+  cellSize = Math.floor(
+      Math.min(canvasWidth / board.width, canvasHeight / board.height));
   draw();
 }
 
 function init() {
-  window.addEventListener('resize', setCellSize);
+  window.addEventListener('resize', updateCanvas);
   gameState = State.RESTARTING;
 }
 
@@ -84,7 +89,7 @@ function run() {
 function restartGame(levelIndex) {
   const level = levels[levelIndex];
   board = level.makeBoard();
-  setCellSize();
+  updateCanvas();
   updateIntervalMs = level.updateInterval;
   board.warpPlayer(level.getPlayer());
   gameState = State.PLAYING;
@@ -159,7 +164,7 @@ initKeyListener({
     keydown: () => {
       const newLevelIndex =
           window.prompt('Go to level (current ' + currentLevelIndex + ')');
-      if (newLevelIndex !== null) {
+      if (newLevelIndex !== null && newLevelIndex > 0) {
         const levelChange = (newLevelIndex != currentLevelIndex);
         currentLevelIndex = parseInt(newLevelIndex);
         if (levelChange) {

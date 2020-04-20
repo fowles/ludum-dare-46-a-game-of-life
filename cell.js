@@ -101,10 +101,10 @@ class Cell {
         fillStyle = 'red';
         break;
       case CellType.WALL:
-        fillStyle = 'black';
+        fillStyle = 'brown';
         break;
       case CellType.DITCH:
-        fillStyle = 'brown';
+        fillStyle = '#333';
         break;
       case CellType.END:
         fillStyle = 'green';

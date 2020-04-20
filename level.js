@@ -124,6 +124,7 @@ const shapes = [
 ];
 
 const levels = [
+  new Level(['P']),
   new Level(
       [
         '***********************************************',
@@ -194,9 +195,9 @@ const levels = [
         '***********************************************',
       ],
       [
-        new Text(5, 15.3, 'Welcome to a "Game of Life"'),
-        new Text(5, 19.3, '- arrow keys move'),
-        new Text(5, 23.3, '- shift + arrow moves one square'),
+        new Text(50, 15, 'Welcome to a "Game of Life"'),
+        new Text(50, 19, '- Arrow keys move'),
+        new Text(50, 23, '- Shift + Arrow moves one square'),
       ]),
   new Level(
       [
@@ -212,7 +213,6 @@ const levels = [
         '****************************',
       ],
       [
-        new Text(15.1, 3.3, 'In this "Game of Life"'),
         new Text(15.1, 4.3, '- arrow keys move'),
         new Text(15.1, 5.3, '- shift + arrow moves one square'),
         new Text(5.1, 7.3, 'Exit - Get to here.'),
@@ -235,7 +235,6 @@ const levels = [
         '****************************',
       ],
       [
-        new Text(15.1, 3.3, 'In this "Game of Life"'),
         new Text(15.1, 4.3, '- arrow keys move'),
         new Text(15.1, 5.3, '- shift + arrow moves one square'),
         new Text(5.1, 7.3, 'Alive cells.'),
@@ -263,7 +262,6 @@ const levels = [
         '****************************',
       ],
       [
-        new Text(15.1, 3.3, 'In this "Game of Life"'),
         new Text(15.1, 4.3, '- arrow keys move'),
         new Text(15.1, 5.3, '- shift + arrow moves one square'),
         new Text(5.1, 7.3, 'Alive cells.'),
@@ -285,7 +283,6 @@ const levels = [
         '*                          *', '****************************',
       ],
       [
-        new Text(15.1, 3.3, 'In this "Game of Life"'),
         new Text(15.1, 4.3, '- arrow keys move'),
         new Text(15.1, 5.3, '- shift + arrow moves one square'),
         new Text(5.1, 7.3, 'Alive cells.'),
@@ -310,7 +307,6 @@ const levels = [
         '*                          *', '****************************',
       ],
       [
-        new Text(15.1, 3.3, 'In this "Game of Life"'),
         new Text(15.1, 4.3, '- arrow keys move'),
         new Text(15.1, 5.3, '- shift + arrow moves one square'),
         new Text(5.1, 7.3, 'Alive cells.'),
