@@ -97,33 +97,53 @@ function restartGame(levelIndex) {
   setTimeout(run, 0);
 }
 
+let up = (modified) => {
+  playerVelocity = {x: 0, y: -1};
+  singleStep = modified;
+};
+let down = (modified) => {
+  playerVelocity = {x: 0, y: 1};
+  singleStep = modified;
+};
+let left = (modified) => {
+  playerVelocity = {x: -1, y: 0};
+  singleStep = modified;
+};
+let right = (modified) => {
+  playerVelocity = {x: 1, y: 0};
+  singleStep = modified;
+};
 initKeyListener({
-  37: {
-    keydown: (modified) => {
-      playerVelocity = {x: -1, y: 0};
-      singleStep = modified;
-    },
+  37: { // arrow left
+    keydown: left,
     keyup: stopPlayer,
   },
-  38: {
-    keydown: (modified) => {
-      playerVelocity = {x: 0, y: -1};
-      singleStep = modified;
-    },
+  65: { // 'a'
+    keydown: left,
     keyup: stopPlayer,
   },
-  39: {
-    keydown: (modified) => {
-      playerVelocity = {x: 1, y: 0};
-      singleStep = modified;
-    },
+  38: { // arrow up
+    keydown: up,
     keyup: stopPlayer,
   },
-  40: {
-    keydown: (modified) => {
-      playerVelocity = {x: 0, y: 1};
-      singleStep = modified;
-    },
+  87: { // 'w'
+    keydown: up,
+    keyup: stopPlayer,
+  },
+  39: {  // arrow right
+    keydown: right,
+    keyup: stopPlayer,
+  },
+  68: {  // 'd'
+    keydown: right,
+    keyup: stopPlayer,
+  },
+  40: { // arrow down
+    keydown: down,
+    keyup: stopPlayer,
+  },
+  83: { // arrow down
+    keydown: down,
     keyup: stopPlayer,
   },
   // 'n'
