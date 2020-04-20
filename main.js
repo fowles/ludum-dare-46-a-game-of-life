@@ -28,10 +28,6 @@ let playerVelocity = {x: 0, y: 0};
 let singleStep = false;
 let currentLevelIndex = 1;
 
-function stopPlayer() {
-  playerVelocity = {x: 0, y: 0};
-}
-
 const State = {
   PLAYING: 0,
   LOST: 1,
@@ -69,7 +65,7 @@ function run() {
     case State.PLAYING:
       board.update();
       board.movePlayer(playerVelocity);
-      if (singleStep) stopPlayer();
+      if (singleStep) playerVelocity = {x: 0, y: 0};
       draw();
       setTimeout(run, updateIntervalMs);
       return;
@@ -97,54 +93,62 @@ function restartGame(levelIndex) {
   setTimeout(run, 0);
 }
 
-let up = (modified) => {
+let keyUpArrow = (modified) => {
   playerVelocity = {x: 0, y: -1};
   singleStep = modified;
 };
-let down = (modified) => {
+let keyDownArrow = (modified) => {
   playerVelocity = {x: 0, y: 1};
   singleStep = modified;
 };
-let left = (modified) => {
+let keyReleaseVertical = () => {
+  playerVelocity.y = 0
+};
+
+let keyLeftArrow = (modified) => {
   playerVelocity = {x: -1, y: 0};
   singleStep = modified;
 };
-let right = (modified) => {
+let keyRightArrow = (modified) => {
   playerVelocity = {x: 1, y: 0};
   singleStep = modified;
 };
+let keyReleaseHorizontal = () => {
+  playerVelocity.x = 0
+};
+
 initKeyListener({
   37: { // arrow left
-    keydown: left,
-    keyup: stopPlayer,
+    keydown: keyLeftArrow,
+    keyup: keyReleaseHorizontal,
   },
   65: { // 'a'
-    keydown: left,
-    keyup: stopPlayer,
+    keydown: keyLeftArrow,
+    keyup: keyReleaseHorizontal,
   },
   38: { // arrow up
-    keydown: up,
-    keyup: stopPlayer,
+    keydown: keyUpArrow,
+    keyup: keyReleaseVertical,
   },
   87: { // 'w'
-    keydown: up,
-    keyup: stopPlayer,
+    keydown: keyUpArrow,
+    keyup: keyReleaseVertical,
   },
   39: {  // arrow right
-    keydown: right,
-    keyup: stopPlayer,
+    keydown: keyRightArrow,
+    keyup: keyReleaseHorizontal,
   },
   68: {  // 'd'
-    keydown: right,
-    keyup: stopPlayer,
+    keydown: keyRightArrow,
+    keyup: keyReleaseHorizontal,
   },
   40: { // arrow down
-    keydown: down,
-    keyup: stopPlayer,
+    keydown: keyDownArrow,
+    keyup: keyReleaseVertical,
   },
   83: { // arrow down
-    keydown: down,
-    keyup: stopPlayer,
+    keydown: keyDownArrow,
+    keyup: keyReleaseVertical,
   },
   // 'n'
   78: {
